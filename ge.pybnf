@@ -1,0 +1,28 @@
+# Initialization, no branching
+<S> ::= <init>{::}<call>
+<init> ::= import numpy as np{::}import __src as src{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}for it in range(iterations):{:<main>:}{::}return X
+
+# parameters
+<params> ::= n = 30{::}iteration = 30{::}my_func = src.tf.ackley_function{::}dimension = 5{::}bounds = -10, 10{::}params = {'beta': .5, 'pr':.7}
+
+# branching starts here
+<main> ::= <ModificationRound> # |<ModificationRound>{::}<DropRound>
+
+<ModificaitionRound> ::= <step> | <step><step> 
+<step> ::= X1 = src.op.<operator>(X, <sel>, <func>, **params}{::}X = <output>
+
+# producing different versions of X1
+<operator> ::= 
+
+<sel> ::= selection_for_op_de 
+<func> ::= crx_exponential 
+
+# ways to chose between X and X1
+<output> ::= X1 | src.op.replace_if_best(X, X1) # | <replace_if_random>
+
+
+<DropRound> ::= <drop_probability>|<drop_worst>|<drop_old>
+
+
+
+<call> ::= ge(){::}XXX_output_XXX = src.solution.best.getFitness()
