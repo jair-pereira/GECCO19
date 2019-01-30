@@ -11,13 +11,15 @@
 <main> ::= <ModificationRound> # |<ModificationRound>{::}<DropRound>
 
 <ModificaitionRound> ::= <step> | <step><step> 
-<step> ::= <X1 = src.op.<operator>(X, <sel>, <func>, **params}{::}X = <output>
+<step> ::= <X1 = src.op.<operator>(X, <sel>, <mut>, <cross>, **params}{::}X = <output>
 
 # producing different versions of X1
-<operator> ::= src.op.apply_op_de
+<operator> ::= src.op.op_de
 
 <sel> ::= select_random | select_tournament
-<func> ::= crx_exponential # | crx_npoint
+<cross> ::= crx_exponential # | crx_npoint
+
+<mut> ::= mut_de #| mut_pso | mut_cs
 
 # ways to chose between X and X1
 <output> ::= X1 | src.op.replace_if_best(X, X1) # | <replace_if_random>

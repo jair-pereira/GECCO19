@@ -1,7 +1,7 @@
 import numpy as np
 from . import solution
 
-# n: pop_size
+#auxilary function for op_de
 def selection_for_op_de(X, sel, **param):
     idx_tmp = np.arange(X.shape[0])
     idx = np.array([np.append([i], sel(X, np.delete(idx_tmp, i), 3, replace=False), **param) for i in range(X.shape[0])])
@@ -9,8 +9,8 @@ def selection_for_op_de(X, sel, **param):
     return idx
 
 
-# TODO:
-# def select_tournament(X, array, k=1, replace=True, **param): # randomly select 5(param['tournament']) solution and return k best of them
+#TODO:
+#def select_tournament(X, array, k=1, replace=True, **param): # randomly select 5(param['tournament']) solution and return k best of them
 
 
 
@@ -18,21 +18,21 @@ def select_random(X, array, k=1, replace=True, **param):
     return np.random.choice(array, k, replace=replace)
 
 
-# TODO:
-# def select_for_op(X, **params): #roulette-style selector of solutions indicies to pass into operator functions
+#TODO:
+#def select_for_op(X, **params): #roulette-style selector of solutions indicies to pass into operator functions
 
 
 #wrapper for op_de (maybe later we can generalize a wrapper for all operators)
 #operators work at solutions, a np.array
 #wrapper work at an object
 
-#for simplicity, lets make separate functions for each operator but we'll introduce some variation with parameters
+#for now, lets make separate functions for each operator but we'll introduce some variation with parameters
 #all "op_" functions produce an alternative population of solutions X1 which we will accept or regect at output stage
 
-def apply_op_de(X, sel, func, **param):
+def op_de(X, sel, mut, cross, **param): 
     sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
-    u = np.array([op_de(X[k].x, X[l].x, X[m].x, X[n].x, func, **param) for k,l,m,n in sel])
+    u = np.array([apply_op_de(X[k].x, X[l].x, X[m].x, X[n].x, mut, cross, **param) for k,l,m,n in sel])
     
     for i in range(len(U)): #
         U[i].setX(u[i]) 
@@ -40,21 +40,21 @@ def apply_op_de(X, sel, func, **param):
     return np.array(U)
 
 #TODO:
-# def op_pso(X, sel, func, **param): 
+#def op_pso(X, sel, func, **param): # this function will recieve some type of select and crossover parameters but will not use them
 
 
 #TODO:
-# def op_ga(X, sel, func, **param): 
+#def op_ga(X, sel, func, **param): 
 
 
-
-def op_de(xi, xr1, xr2, xr3, func, **param):
-    u = mut_de(xr1, xr2, xr3, param['beta'])
-    v, _ = func(xi, u, param['pr'])
+#auxilary function to op_de
+def apply_op_de(xi, xr1, xr2, xr3, mut, cross, **param):
+    u = mut(xr1, xr2, xr3, **param)
+    v, _ = cross(xi, u, **param)
     return v
 
-def mut_de(x1, x2, x3, beta):
-    u = x1 + beta*(x2-x3)
+def mut_de(x1, x2, x3, **param):
+    u = x1 + param['beta']*(x2-x3)
     return u
 
 def crx_npoint(x1, x2, points):
@@ -66,12 +66,12 @@ def crx_npoint(x1, x2, points):
     
     return u, v
 
-def crx_exponential(x1, x2, pr, func=crx_npoint):
+def crx_exponential(x1, x2, **param, func=crx_npoint):
     all_points = np.arange(x1.shape[0])
     i = np.random.choice(all_points)    #ensure at least one point
     crossover_points = [all_points[i]]
 
-    while pr >= np.random.uniform(0, 1) and len(crossover_points) < len(all_points):
+    while param['pr'] >= np.random.uniform(0, 1) and len(crossover_points) < len(all_points):
         i = (i+1) % len(all_points)
         crossover_points = crossover_points + [all_points[i]]
         
