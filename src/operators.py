@@ -57,6 +57,12 @@ def mut_de(x1, x2, x3, **param):
     u = x1 + param['beta']*(x2-x3)
     return u
 
+#TODO:
+#def mut_pso(x1, x2, x3, **param): #not all parameters will be used
+
+#TODO:
+#def mut_cs(x1, x2, x3, **param): #not all parameters will be used
+
 def crx_npoint(x1, x2, points):
     u = np.array([_ for _ in x1])
     v = np.array([_ for _ in x2])
