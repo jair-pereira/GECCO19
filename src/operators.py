@@ -15,18 +15,19 @@ def selection_de(X1, X2):
 #wrapper for op_de (maybe later we can generalize a wrapper for all operators)
 #operators work at solutions, a np.array
 #wrapper   work at an object
-def apply_op_de(func, X, sel, param):
+def apply_op_de(X, sel, func, **param):
+    sel = sel(X.shape[0])
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
-    u = np.array([func(X[k].x, X[l].x, X[m].x, X[n].x, *param) for k,l,m,n in sel])
+    u = np.array([op_de(X[k].x, X[l].x, X[m].x, X[n].x, func, **param) for k,l,m,n in sel])
     
     for i in range(len(U)):
         U[i].setX(u[i])
     
     return np.array(U)
 
-def op_de(xi, xr1, xr2, xr3, func, beta, pr):
-    u = mut_de(xr1, xr2, xr3, beta)
-    v, _ = func(xi, u, pr)
+def op_de(xi, xr1, xr2, xr3, func, **param):
+    u = mut_de(xr1, xr2, xr3, param['beta'])
+    v, _ = func(xi, u, param['pr'])
     return v
 
 def mut_de(x1, x2, x3, beta):
