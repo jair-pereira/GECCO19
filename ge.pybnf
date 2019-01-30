@@ -1,3 +1,5 @@
+# parcing syntax: "<__>" - non-terminals, "{::}" - new line, "{:_____:}" - indentation
+
 # Initialization, no branching
 <S> ::= <init>{::}<call>
 <init> ::= import numpy as np{::}import __src as src{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}for it in range(iterations):{:<main>:}{::}return X
@@ -9,12 +11,12 @@
 <main> ::= <ModificationRound> # |<ModificationRound>{::}<DropRound>
 
 <ModificaitionRound> ::= <step> | <step><step> 
-<step> ::= X1 = src.op.<operator>(X, <sel>, <func>, **params}{::}X = <output>
+<step> ::= <X1 = src.op.<operator>(X, <sel>, <func>, **params}{::}X = <output>
 
 # producing different versions of X1
 <operator> ::= src.op.apply_op_de
 
-<sel> ::= select_random 
+<sel> ::= select_random | select_tournament
 <func> ::= crx_exponential # | crx_npoint
 
 # ways to chose between X and X1

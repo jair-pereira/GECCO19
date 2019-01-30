@@ -18,14 +18,17 @@ def select_random(X, array, k=1, replace=True, **param):
     return np.random.choice(array, k, replace=replace)
 
 
+# TODO:
+# def select_for_op(X, **params): #roulette-style selector of solutions indicies to pass into operator functions
 
 
 #wrapper for op_de (maybe later we can generalize a wrapper for all operators)
 #operators work at solutions, a np.array
-#wrapper   work at an object
+#wrapper work at an object
 
 #for simplicity, lets make separate functions for each operator but we'll introduce some variation with parameters
-#all "op_" functions produce an alternative population of solutions X1
+#all "op_" functions produce an alternative population of solutions X1 which we will accept or regect at output stage
+
 def apply_op_de(X, sel, func, **param):
     sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
@@ -41,15 +44,8 @@ def apply_op_de(X, sel, func, **param):
 
 
 #TODO:
-# def op_sc(X, sel, func, **param):
-
-
-#TODO:
 # def op_ga(X, sel, func, **param): 
 
-
-#TODO:
-# def op_bee2(X, sel, func, **param): # 2nd step of bee algorythm
 
 
 def op_de(xi, xr1, xr2, xr3, func, **param):
