@@ -2,11 +2,15 @@ import numpy as np
 from . import solution
 
 # n: pop_size
-def selection_for_op_de(n):
+def selection_for_op_de(n, sel):
     idx_tmp = np.arange(n)
-    idx = np.array([np.append([i], np.random.choice(np.delete(idx_tmp, i), 3, replace=False)) for i in range(n)])
+    idx = np.array([np.append([i], select_random(np.delete(idx_tmp, i), 3, replace=False)) for i in range(n)])
 
     return idx
+
+def select_random(array, k=1, replace=True):
+    return np.random.choice(array, k, replace=replace)
+
 
 def selection_de(X1, X2):
     U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
@@ -16,7 +20,7 @@ def selection_de(X1, X2):
 #operators work at solutions, a np.array
 #wrapper   work at an object
 def apply_op_de(X, sel, func, **param):
-    sel = sel(X.shape[0])
+    sel = selection_for_op_de(X.shape[0], sel)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
     u = np.array([op_de(X[k].x, X[l].x, X[m].x, X[n].x, func, **param) for k,l,m,n in sel])
     
