@@ -2,32 +2,55 @@ import numpy as np
 from . import solution
 
 # n: pop_size
-def selection_for_op_de(n, sel):
-    idx_tmp = np.arange(n)
-    idx = np.array([np.append([i], select_random(np.delete(idx_tmp, i), 3, replace=False)) for i in range(n)])
+def selection_for_op_de(X, sel, **param):
+    idx_tmp = np.arange(X.shape[0])
+    idx = np.array([np.append([i], sel(X, np.delete(idx_tmp, i), 3, replace=False), **param) for i in range(X.shape[0])])
 
     return idx
 
-def select_random(array, k=1, replace=True):
+
+# TODO:
+# def select_tournament(X, array, k=1, replace=True, **param): # randomly select 5(param['tournament']) solution and return k best of them
+
+
+
+def select_random(X, array, k=1, replace=True, **param):
     return np.random.choice(array, k, replace=replace)
 
 
-def selection_de(X1, X2):
-    U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
-    return np.array(U)
+
 
 #wrapper for op_de (maybe later we can generalize a wrapper for all operators)
 #operators work at solutions, a np.array
 #wrapper   work at an object
+
+#for simplicity, lets make separate functions for each operator but we'll introduce some variation with parameters
+#all "op_" functions produce an alternative population of solutions X1
 def apply_op_de(X, sel, func, **param):
-    sel = selection_for_op_de(X.shape[0], sel)
+    sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
     u = np.array([op_de(X[k].x, X[l].x, X[m].x, X[n].x, func, **param) for k,l,m,n in sel])
     
-    for i in range(len(U)):
-        U[i].setX(u[i])
+    for i in range(len(U)): #
+        U[i].setX(u[i]) 
     
     return np.array(U)
+
+#TODO:
+# def op_pso(X, sel, func, **param): 
+
+
+#TODO:
+# def op_sc(X, sel, func, **param):
+
+
+#TODO:
+# def op_ga(X, sel, func, **param): 
+
+
+#TODO:
+# def op_bee2(X, sel, func, **param): # 2nd step of bee algorythm
+
 
 def op_de(xi, xr1, xr2, xr3, func, **param):
     u = mut_de(xr1, xr2, xr3, param['beta'])
@@ -59,3 +82,12 @@ def crx_exponential(x1, x2, pr, func=crx_npoint):
     
     u, v = func(x1, x2, crossover_points)
     return u, v
+
+def replace_if_best(X1, X2):
+    U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
+    return np.array(U)
+
+#cuckoo-style update
+def replace_if_random(X1, X2):
+    U = [X2[i] if X2[i].getFitness() > np.random.choice(X1, 1).getFitness() else X1[i] for i in range(X1.shape[0])]
+    return np.array(U)

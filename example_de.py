@@ -33,7 +33,7 @@ my_func   = tf.ackley_function
 dimension = 5
 bounds    = -10, 10
 
-params = {'beta':.5, 'pr':.7}
+params = {'beta':.5, 'pr':.7, 'tournamment':5}
 
 de()
 # src.solution.best.getFitness()
