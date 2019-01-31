@@ -4,7 +4,7 @@ from . import solution
 #auxilary function for op_de
 def selection_for_op_de(X, sel, **param):
     idx_tmp = np.arange(X.shape[0])
-    idx = np.array([np.append([i], sel(X, np.delete(idx_tmp, i), 3, replace=False), **param) for i in range(X.shape[0])])
+    idx = np.array([np.append([i], sel(X, np.delete(idx_tmp, i), 3, replace=False, **param)) for i in range(X.shape[0])])
 
     return idx
 
@@ -72,7 +72,7 @@ def crx_npoint(x1, x2, points):
     
     return u, v
 
-def crx_exponential(x1, x2, **param, func=crx_npoint):
+def crx_exponential(x1, x2, func=crx_npoint, **param):
     all_points = np.arange(x1.shape[0])
     i = np.random.choice(all_points)    #ensure at least one point
     crossover_points = [all_points[i]]
