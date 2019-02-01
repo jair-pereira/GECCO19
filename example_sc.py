@@ -4,7 +4,7 @@ import src
 import testFunctions as tf
 from animation import animation, animation3D
 
-def sc():
+def cs():
     #instantiate solutions 
     X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
     #initialize solutions 
@@ -35,6 +35,6 @@ bounds    = -10, 10
 
 params = {'beta':.5, 'pr':.7, 'tournamment':5, 'w':.5, 'c1':.5, 'c2':1, 'pa':.25}
 
-sc()
+cs()
 # src.solution.best.getFitness()
 animation(src.solution.history, my_func, *bounds)
