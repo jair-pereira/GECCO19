@@ -26,6 +26,7 @@ class solution(object):
         
         self.pbest = None
         self.gbest = None #static?
+        self.velocity = np.zeros(dimension)
         self.age = 0
         self.rank = None
     
@@ -37,6 +38,9 @@ class solution(object):
         if self.fitness == None:
             self.fitness = self.evaluate()
             solution.updateBest(self)
+            if(self.pbest == None or self.fitness > self.pbest.fitness):
+                self.pbest = self.x
+            self.gbest = solution.best.x
 
         return self.fitness
     

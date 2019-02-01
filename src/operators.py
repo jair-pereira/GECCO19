@@ -19,7 +19,7 @@ def select_random(X, array, k=1, replace=True, **param):
 
 
 #TODO:
-#def select_for_op(X, **params): #roulette-style selector of solutions indicies to pass into operator functions
+#def select_for_op(X, **params): #roulette-style selector of solutions indicies to pass into operator functions (2nd step of abs update)
 
 
 #wrapper for op_de (maybe later we can generalize a wrapper for all operators)
@@ -32,7 +32,7 @@ def select_random(X, array, k=1, replace=True, **param):
 def op_de(X, sel, mut, cross, **param): 
     sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
-    u = np.array([apply_op_de(X[k].x, X[l].x, X[m].x, X[n].x, mut, cross, **param) for k,l,m,n in sel])
+    u = np.array([apply_op_de(X[k], X[l], X[m], X[n], mut, cross, **param) for k,l,m,n in sel])
     
     for i in range(len(U)): #
         U[i].setX(u[i]) 
@@ -40,28 +40,42 @@ def op_de(X, sel, mut, cross, **param):
     return np.array(U)
 
 #TODO:
-#def op_pso(X, sel, func, **param): # this function will recieve some type of select and crossover parameters but will not use them
+def op_pso(X, sel, mut, cross, **param): # this function will recieve some type of select and crossover parameters but will not use them
+    U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
+    u = np.array([mut(X[i], **param) for i in range(X.shape[0])])
+    
+    for i in range(len(U)): 
+        U[i].setX(u[i]) 
+
+    return np.array(U)
 
 
 #TODO:
-#def op_ga(X, sel, func, **param): 
+#def op_ga(X, sel, mut, cross, **param): 
 
 
 #auxilary function to op_de
 def apply_op_de(xi, xr1, xr2, xr3, mut, cross, **param):
     u = mut(xr1, xr2, xr3, **param)
-    v, _ = cross(xi, u, **param)
+    v, _ = cross(xi.x, u, **param)
     return v
 
 def mut_de(x1, x2, x3, **param):
-    u = x1 + param['beta']*(x2-x3)
+    u = x1.x + param['beta']*(x2.x-x3.x)
     return u
 
 #TODO:
-#def mut_pso(x1, x2, x3, **param): #not all parameters will be used
+def mut_pso(x1, x2=None, x3=None, **param): 
+    r1 = np.random.random(x1.x.shape)
+    r2 = np.random.random(x1.x.shape)
+    x1.getFitness()
+    x1.velocity = param['w']*x1.velocity + param['c1']*r1*(x1.pbest - x1.x) + param['c2']*r2*(x1.gbest - x1.x)
+    u = x1.velocity + x1.x
+        
+    return u
 
 #TODO:
-#def mut_cs(x1, x2, x3, **param): #not all parameters will be used
+#def mut_cs(x1, x2=None, x3=None, **param): #not all parameters will be used
 
 def crx_npoint(x1, x2, points):
     u = np.array([_ for _ in x1])

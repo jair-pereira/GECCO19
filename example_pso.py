@@ -4,7 +4,7 @@ import src
 import testFunctions as tf
 from animation import animation, animation3D
 
-def de():
+def pso():
     #instantiate solutions 
     X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
     #initialize solutions 
@@ -17,11 +17,12 @@ def de():
         #1. Select individuals for modification in this round
         # none - select all. Alternative (bee algorythm) is to select only solutions drawn with fitness-dependant probability
         #2. de_operator = create an alternative set of solutions X1 using mutation+crossover
-        X1  = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential, **params)
-        #3. Select individual for the next generation
-        X = src.op.replace_if_best(X, X1)
+        X1  = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential, **params)
+        #3. Select individual for the next generation <- accept all
+        X = X1
         
         src.solution.updateHistory(X) 
+
 
     return X
     
@@ -35,6 +36,6 @@ bounds    = -10, 10
 
 params = {'beta':.5, 'pr':.7, 'tournamment':5, 'w':.5, 'c1':.5, 'c2':1}
 
-de()
+pso()
 # src.solution.best.getFitness()
 animation(src.solution.history, my_func, *bounds)

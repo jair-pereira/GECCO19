@@ -5,8 +5,8 @@
 <init> ::= import numpy as np{::}import __src as src{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}for it in range(iterations):{:<main>:}{::}return X
 
 # parameters
-<params> ::= n = 30{::}iteration = 30{::}my_func = src.tf.ackley_function{::}dimension = 5{::}bounds = -10, 10{::}params = {'beta': .5, 'pr':.7, 'tournament':5}
-
+<params> ::= n = 30{::}iteration = 30{::}my_func = src.tf.ackley_function{::}dimension = 5{::}bounds = -10, 10{::}params = {'beta': .5, 'pr':.7, 'tournament':5, 'w':.5, 'c1:.5', 'c2':1}
+w=0.5, c1=0.5, c2=1
 # branching starts here
 <main> ::= <ModificationRound> # |<ModificationRound>{::}<DropRound>
 
@@ -14,12 +14,13 @@
 <step> ::= <X1 = src.op.<operator>(X, <sel>, <mut>, <cross>, **params}{::}X = <output>
 
 # producing different versions of X1
-<operator> ::= src.op.op_de
+<operator> ::= src.op.op_de | src.op.op_pso
 
 <sel> ::= select_random | select_tournament
+
 <cross> ::= crx_exponential # | crx_npoint
 
-<mut> ::= mut_de #| mut_pso | mut_cs
+<mut> ::= mut_de | mut_pso #| mut_cs
 
 # ways to chose between X and X1
 <output> ::= X1 | src.op.replace_if_best(X, X1) # | <replace_if_random>
