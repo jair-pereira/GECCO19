@@ -1,4 +1,5 @@
 import numpy as np
+from math import gamma, pi, sin
 from . import solution
 
 #auxilary function for op_de
@@ -39,7 +40,7 @@ def op_de(X, sel, mut, cross, **param):
     
     return np.array(U)
 
-#TODO:
+#PSO-operator. Updates each solution that is passed to with one of the <mut> step operators
 def op_pso(X, sel, mut, cross, **param): # this function will recieve some type of select and crossover parameters but will not use them
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
     u = np.array([mut(X[i], **param) for i in range(X.shape[0])])
@@ -64,7 +65,7 @@ def mut_de(x1, x2, x3, **param):
     u = x1.x + param['beta']*(x2.x-x3.x)
     return u
 
-#TODO:
+#pso velocity update (potentially can be called from op_de on <mut> operator)
 def mut_pso(x1, x2=None, x3=None, **param): 
     r1 = np.random.random(x1.x.shape)
     r2 = np.random.random(x1.x.shape)
@@ -74,8 +75,19 @@ def mut_pso(x1, x2=None, x3=None, **param):
         
     return u
 
-#TODO:
-#def mut_cs(x1, x2=None, x3=None, **param): #not all parameters will be used
+#cs Levi flight
+def mut_cs(x1, x2=None, x3=None, **param): 
+    beta = 3 / 2
+    sigma = (gamma(1 + beta) * sin(pi * beta / 2) / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))) ** (1 / beta)
+    w = np.array(np.random.standard_normal(x1.x.shape)) * sigma
+    v = np.array(np.random.standard_normal(x1.x.shape))
+    step = w / abs(v) ** (1 / beta)
+
+    x1.getFitness()
+    stepsize = 0.2 * step * (x1.x - x1.pbest)
+    u = x1.x + stepsize
+
+    return u
 
 def crx_npoint(x1, x2, points):
     u = np.array([_ for _ in x1])
@@ -105,5 +117,5 @@ def replace_if_best(X1, X2):
 
 #cuckoo-style update
 def replace_if_random(X1, X2):
-    U = [X2[i] if X2[i].getFitness() > np.random.choice(X1, 1).getFitness() else X1[i] for i in range(X1.shape[0])]
+    U = [X2[i] if X2[i].getFitness() > X1[np.random.randint(0, X1.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
