@@ -21,7 +21,7 @@ def cs():
         #3. Select individual for the next generation
         X = src.op.replace_if_random(X, X1)
         #4 - Drop round
-        X = src.op.drop_worst(X, **params)
+        #X = src.op.drop_worst(X, **params)
 
         src.solution.updateHistory(X) 
 

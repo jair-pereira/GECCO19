@@ -35,15 +35,16 @@ def op_de(X, sel, mut, cross, **param):
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
     u = np.array([apply_op_de(X[k], X[l], X[m], X[n], mut, cross, **param) for k,l,m,n in sel])
     
-    for i in range(len(U)): #
+    for i in range(len(U)): 
         U[i].setX(u[i]) 
     
     return np.array(U)
 
-#PSO-operator. Updates each solution that is passed to with one of the <mut> step operators
+#PSO-operator. Updates each solution that is passed to it with one of the <mut> step operators
 def op_pso(X, sel, mut, cross, **param): # this function will recieve some type of select and crossover parameters but will not use them
+    sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
-    u = np.array([mut(X[i], **param) for i in range(X.shape[0])])
+    u = np.array([mut(X[k], X[l], X[m], **param) for k, l, m in sel])
     
     for i in range(len(U)): 
         U[i].setX(u[i]) 
@@ -66,7 +67,7 @@ def mut_de(x1, x2, x3, **param):
     return u
 
 #pso velocity update (potentially can be called from op_de on <mut> operator)
-def mut_pso(x1, x2=None, x3=None, **param): 
+def mut_pso(x1, x2, x3, **param): 
     r1 = np.random.random(x1.x.shape)
     r2 = np.random.random(x1.x.shape)
     x1.getFitness()
@@ -76,7 +77,7 @@ def mut_pso(x1, x2=None, x3=None, **param):
     return u
 
 #cs Levi flight
-def mut_cs(x1, x2=None, x3=None, **param): 
+def mut_cs(x1, x2, x3, **param): 
     beta = 3 / 2
     sigma = (gamma(1 + beta) * sin(pi * beta / 2) / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))) ** (1 / beta)
     w = np.array(np.random.standard_normal(x1.x.shape)) * sigma
@@ -119,3 +120,25 @@ def replace_if_best(X1, X2):
 def replace_if_random(X1, X2):
     U = [X2[i] if X2[i].getFitness() > X1[np.random.randint(0, X1.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
+
+#TODO:
+def drop_probability(X, **params):
+    for i in range(X.shape[0]):
+        if np.random.random() < params['dp']:
+            X[i].initRandom()
+    return X
+
+
+#TODO:
+def drop_worst(X, **params):
+    #[X[i].getFitness() for i in range(X.shape[0])]
+    u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
+    u = sorted(u, key=lambda x:x[0])
+    for i in range(20):
+        if np.random.random() < params['pa']:
+            ind = int(u[i][1])
+            X[ind].initRandom()
+    return X
+
+#TODO:
+#def drop_old():
