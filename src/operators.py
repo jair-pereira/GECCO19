@@ -44,7 +44,7 @@ def op_de(X, sel, mut, cross, **param):
 def op_pso(X, sel, mut, cross, **param): # this function will recieve some type of select and crossover parameters but will not use them
     sel = selection_for_op_de(X, sel, **param)
     U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
-    u = np.array([mut(X[k], X[l], X[m], **param) for k, l, m in sel])
+    u = np.array([mut(X[k], X[l], X[m], **param) for k, l, m, n in sel])
     
     for i in range(len(U)): 
         U[i].setX(u[i]) 

@@ -17,7 +17,7 @@ def cs():
         #1. Select individuals for modification in this round
         # none - select all. Alternative (bee algorythm) is to select only solutions drawn with fitness-dependant probability
         #2. de_operator = create an alternative set of solutions X1 using mutation+crossover
-        X1  = src.op.op_de(X, src.op.select_random, src.op.mut_cs, src.op.crx_exponential, **params)
+        X1  = src.op.op_pso(X, src.op.select_random,src.op.mut_cs, src.op.crx_exponential, **params)
         #3. Select individual for the next generation
         X = src.op.replace_if_random(X, X1)
         #4 - Drop round
