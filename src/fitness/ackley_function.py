@@ -7,7 +7,7 @@ from math import *
 
 class ackley_function(base_ff):
 
-    maximise = True
+    maximise = False
     
     def __init__(self):
         # Initialise base fitness function class.
