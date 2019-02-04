@@ -1,0 +1,36 @@
+# parcing syntax: "<__>" - non-terminals, "{::}" - new line, "{:_____:}" - indentation
+
+# Initialization, no branching
+<S> ::= <init>{::}<call>
+<init> ::= import numpy as np{::}import src{::}import testFunctions as tf{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}for it in range(iterations):{:<main>:}{::}return X:}
+
+# parameters
+<params> ::= n = 30{::}iteration = 30{::}my_func = tf.ackley_function{::}dimension = 2{::}bounds = -5, 5{::}params = {'beta': .5, 'pr':.7, 'tournament':5, 'w':.5, 'c1:.5', 'c2':1, 'pa':.25, 'dp':.1}
+
+# branching starts here
+<main> ::= <ModificationRound> |<ModificationRound>{::}<DropRound>
+
+<ModificationRound> ::= <step> | <step>{::}	<step> 
+<step> ::= X1 = src.op.<operator>(X, <sel>, <mut>, <cross>, params){::}X = <output>
+
+# producing different versions of X1
+<operator> ::= op_de | op_pso
+	
+<sel> ::= src.op.select_random #| src.op.select_tournament
+
+<cross> ::= src.op.crx_exponential # | src.op.crx_npoint
+
+<mut> ::= src.op.mut_de | src.op.mut_pso 
+
+# ways to chose between X and X1
+<output> ::= X1 | src.op.replace_if_best(X, X1) # | src.op.replace_if_random(X1, X2)
+
+
+<DropRound> ::= <DropRandom>|<DropWorst>|<DropOld>
+<DropRandom> ::= X = src.op.drop_probability(X, params){::} 
+<DropWorst> ::= X = src.op.drop_worst(X, params) {::}
+<DropOld> ::= pass {::} 
+
+
+
+<call> ::= ge(){::}XXX_output_XXX = src.solution.best.getFitness()

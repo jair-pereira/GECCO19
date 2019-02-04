@@ -1,0 +1,3 @@
+suite = 'bbob', funcId = 3, DIM = 20, Precision = 1.000e-08, algId = 'ALG', coco_version = '2.2.1.10', logger = 'bbob', data_format = 'bbob-new'
+%
+data_f3/bbobexp_f3_DIM20_i1.dat, 1:104050|4.1e+02

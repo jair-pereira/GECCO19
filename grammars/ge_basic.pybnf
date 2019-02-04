@@ -1,0 +1,27 @@
+# parcing syntax: "<__>" - non-terminals, "{::}" - new line, "{:_____:}" - indentation
+
+# Initialization, no branching
+<S> ::= <init>{::}<call>
+<init> ::= import numpy as np{::}import src{::}import testFunctions as tf{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}for it in range(iterations):{:<main>:}{::}return X :}
+
+# parameters
+<params> ::= n = 30{::}iterations = 30{::}my_func = tf.ackley_function{::}dimension = 2{::}bounds = -5, 5{::}crx = src.op.crx_exponential{::}beta = .5{::}pr = .7
+
+# branching starts here
+<main> ::= <ModificationRound> 
+
+<ModificationRound> ::= <step> 
+<step> ::= <select>{::}<operator>{::}<output>
+
+# producing different versions of X1
+<select> ::= sel = src.op.selection_for_op_de(n)
+
+<operator> ::= X1 = src.op.apply_op_de(<mut>, X, sel, (crx, beta, pr))
+
+<mut> ::= src.op.op_de
+# ways to chose between X and X1
+<output> ::= X = src.op.selection_de(X, X1)
+
+
+
+<call> ::= ge(){::}XXX_output_XXX = src.solution.best.x

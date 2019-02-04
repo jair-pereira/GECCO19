@@ -1,0 +1,46 @@
+Generation:
+50
+
+Phenotype:
+import numpy as np
+from math import *
+from helper import sw
+def function(x):
+  return -exp(-sqrt(0.5*sum([i**2 for i in x]))) - exp(0.5*sum([cos(i) for i in x])) + 1 + exp(1)
+class swarm(sw):
+  def __init__(self, n, function, lb, ub, dimension, iterations):
+    super(swarm, self).__init__()
+    self._agents = np.random.uniform(lb, ub, (n, dimension))
+    self._points(self._agents)
+    Pbest = self._agents[np.array([function(x)for x in self._agents]).argmin()]
+    Gbest = Pbest
+    velocity = np.zeros((n, dimension))
+    nest = 100
+    self._nests = np.random.uniform(lb, ub, (nest, dimension))
+    for t in range(iterations):
+      self._velocity(Pbest, Gbest, n, dimension, velocity)
+      swap = 1
+      for i in self._agents: 
+        val = np.random.randint(0, nest - 1)
+        if function(i) < function(self._nests[val]):
+          self._nests[val] = i
+      self._ordered_swap(n, nest, function)
+      self._agents = np.clip(self._agents, lb, ub)
+      self._nests = np.clip(self._nests, lb, ub)
+      self._points(self._agents)
+      if swap:
+        Pbest = self._nests[np.array([function(x) for x in self._nests]).argmin()]
+      else:
+        Pbest = self._agents[np.array([function(x) for x in self._agents]).argmin()]
+      if function(Pbest) < function(Gbest):
+        Gbest = Pbest
+    self._set_Gbest(Gbest)
+XXX_output_XXX = swarm(50, function, -10, 10, 2, 30).get_Gbest()
+
+Genotype:
+[37602, 5038, 81094, 98479, 84895, 8100, 85089, 40139, 75499, 80711, 41557, 27844, 67807, 85534, 80591, 26901, 90325, 88143, 27984, 10127, 26340, 14604, 35979, 25900, 86419, 64848, 17698, 55829, 16406, 16788, 81566, 33770, 92334, 45132, 61828, 94241, 43990, 7314, 88120, 63925, 14631, 30288, 90658, 28949, 70367, 42679, 4139, 60435, 50354, 96497, 7591, 64527, 94220, 69567, 18279, 90576, 61107, 92557, 94380, 30794, 46102, 31284, 84620, 45640, 91449, 88451, 66371, 97731, 26414, 36425, 11785, 7225, 77415, 35151, 15955, 27658, 41304, 46053, 15777, 8736, 50561, 69775, 38295, 88167, 12261, 84776, 1013, 73425, 15977, 78984, 78462, 27122, 68295, 95762, 5383, 32737, 55853, 97980, 38084, 24135, 83893, 85475, 68427, 50094, 92292, 61207, 31907, 73475, 4255, 47537, 8335, 47209, 86928, 4606, 12164, 73599, 67292, 29329, 66421, 46536, 5416, 51938, 46950, 12613, 64701, 8884, 61301, 85051, 93260, 80705, 7547, 19843, 45230, 56572, 79712, 20269, 89721, 6198, 82963, 87292, 30534, 56581, 49253, 35685, 36810, 19128, 60660, 50418, 1202, 91068, 82941, 95568, 8208, 41825, 84208, 28469, 70071, 56352, 70015, 61611, 81806, 67329, 60267, 8122, 22742, 94301, 13366, 56250, 25315, 5138, 88321, 20448, 34073, 75982, 19051, 3323, 20227, 90679, 70465, 38087, 97165, 69986, 50320, 98579, 27594, 47463, 66308, 60080, 11271, 89137, 71182, 82600, 45103, 87810, 4067, 36830, 91432, 97273, 64366, 48000]
+Tree:
+None
+
+Fitness:
+0.0

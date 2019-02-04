@@ -1,0 +1,6 @@
+suite = 'bbob', funcId = 1, DIM = 2, Precision = 1.000e-08, algId = 'my_solver(solvers)', coco_version = '2.2.1.10', logger = 'bbob', data_format = 'bbob-new'
+%
+data_f1/bbobexp_f1_DIM2_i1.dat, 1:1459|4.3e-05, 2:1459|4.0e-06, 3:1459|1.8e-05, 4:1459|1.2e-05, 5:1459|9.4e-05, 71:1459|1.5e-06, 72:1459|7.9e-04, 73:1459|2.3e-05, 74:1459|4.4e-06, 75:1459|2.6e-03, 76:1459|1.9e-05, 77:1459|2.4e-03, 78:1459|4.0e-05, 79:1459|1.6e-06, 80:1459|5.5e-07
+suite = 'bbob', funcId = 1, DIM = 3, Precision = 1.000e-08, algId = 'my_solver(solvers)', coco_version = '2.2.1.10', logger = 'bbob', data_format = 'bbob-new'
+%
+data_f1/bbobexp_f1_DIM3_i1.dat, 1:1|1.9e+00
