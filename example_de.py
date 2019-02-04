@@ -2,7 +2,7 @@ import numpy as np
 import src
 
 import testFunctions as tf
-from animation import animation, animation3D
+#from animation import animation, animation3D
 
 def de():
     #instantiate solutions 
@@ -15,9 +15,9 @@ def de():
     
     for it in range(iteration):
         #1. Select individuals for de_operator
-        sel = src.op.selection_for_op_de(X.shape[0]) #return indices
+        # sel = src.op.selection_for_op_de(X.shape[0]) #return indices
         #2. de_operator = mutation+crossover
-        X1  = src.op.apply_op_de(src.op.op_de, X, sel, (crx, beta, pr))
+        X1  = src.op.apply_op_de(src.op.op_de, X, (crx, beta, pr))
         #3. Select individual for the next generation
         X = src.op.selection_de(X, X1)
         
@@ -38,5 +38,5 @@ beta = .5
 pr   = .7
 
 de()
-# src.solution.best.getFitness()
-animation(src.solution.history, my_func, *bounds)
+src.solution.best.getFitness()
+#animation(src.solution.history, my_func, *bounds)
