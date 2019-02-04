@@ -34,11 +34,11 @@ my_func   = tf.ackley_function
 dimension = 5
 bounds    = -10, 10
 
-beta = .5, 
-pr = .7, 
+beta = .5 
+pr = .7
 tournamment = 5
-w = .5, 
-c1 = .5, 
+w = .5 
+c1 = .5 
 c2 = 1
 
 pso()

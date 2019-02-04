@@ -2,6 +2,15 @@ import numpy as np
 from math import gamma, pi, sin
 from . import solution
 
+beta = .5 
+pr = .7 
+tournamment = 5
+w = .5 
+c1 = .5 
+c2 = 1
+pa = .25
+dp = .1
+
 #auxilary function for op_de
 def selection_for_op_de(X, sel):
     idx_tmp = np.arange(X.shape[0])
@@ -120,24 +129,26 @@ def replace_if_best(X1, X2):
 def replace_if_random(X1, X2):
     U = [X2[i] if X2[i].getFitness() > X1[np.random.randint(0, X1.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
+    return X2
 
 #TODO:
 def drop_probability(X):
     for i in range(X.shape[0]):
         if np.random.random() < dp:
             X[i].initRandom()
+            X[i].getFitness()
     return X
 
 
 #TODO:
 def drop_worst(X):
-    [X[i].getFitness() for i in range(X.shape[0])]
-    u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
-    u = sorted(u, key=lambda x:x[0])
-    for i in range(20):
-        if np.random.random() < pa:
-            ind = int(u[i][1])
-            X[ind].initRandom()
+    # [X[i].getFitness() for i in range(X.shape[0])]
+    # u = np.array([(X[i].fitness, i) for i in range(X.shape[0])])
+    # u = sorted(u, key=lambda x:x[0])
+    # for i in range(20):
+    #     if np.random.random() < pa:
+    #         ind = int(u[i][1])
+    #         X[ind].initRandom()
     return X
 
 #TODO:
