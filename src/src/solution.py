@@ -53,8 +53,8 @@ class solution(object):
         if self.fitness == None:
             self.fitness = self.evaluate()
             
-            self.updatePBest(self)
-            solution.updateBest(self)
+            self.updatePBest()
+        solution.updateBest(self)
 
         return self.fitness
     

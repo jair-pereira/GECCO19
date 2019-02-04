@@ -8,7 +8,7 @@ DEBUG:                   False
 ELITE_SIZE:              1
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         None
-FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/PonyGE/src/../results/Annas-MacBook-Pro.local_19_2_4_172800_271321_3018_271321
+FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/src/../results/Annas-MacBook-Pro.local_19_2_4_212530_174571_3811_174571
 FITNESS_FUNCTION:        ackley_function
 GENERATIONS:             50
 GENERATION_SIZE:         29
@@ -40,7 +40,7 @@ OPTIMIZE_CONSTANTS:      False
 PARAMETERS:              ge.txt
 PERMUTATION_RAMPS:       5
 POPULATION_SIZE:         30
-RANDOM_SEED:             271321
+RANDOM_SEED:             174571
 REPLACEMENT:             generational
 REVERSE_MAPPING_TARGET:  None
 RUNS:                    1
@@ -57,7 +57,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              Annas-MacBook-Pro.local_19_2_4_172800_271321_3018_271321
+TIME_STAMP:              Annas-MacBook-Pro.local_19_2_4_212530_174571_3811_174571
 TOURNAMENT_SIZE:         2
 VERBOSE:                 True
 WITHIN_USED:             True

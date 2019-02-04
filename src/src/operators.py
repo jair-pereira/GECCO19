@@ -80,7 +80,7 @@ def mut_pso(x1, x2, x3):
     r1 = np.random.random(x1.x.shape)
     r2 = np.random.random(x1.x.shape)
     x1.getFitness()
-    x1.velocity = w*x1.velocity + c1*r1*(x1.pbest - x1.x) + c2*r2*(x1.gbest - x1.x)
+    x1.velocity = w*x1.velocity + c1*r1*(x1.pbest_x - x1.x) + c2*r2*(solution.best.x - x1.x)
     u = x1.velocity + x1.x
         
     return u
