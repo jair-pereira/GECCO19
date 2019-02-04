@@ -11,7 +11,7 @@ w=0.5, c1=0.5, c2=1
 <main> ::= <ModificationRound> |<ModificationRound>{::}<DropRound>
 
 <ModificaitionRound> ::= <step> | <step><step> 
-<step> ::= <X1 = src.op.<operator>(X, <sel>, <mut>, <cross>, **params}{::}X = <output>
+<step> ::= X1 = src.op.<operator>(X, <sel>, <mut>, <cross>, **params}{::}X = <output>
 
 # producing different versions of X1
 <operator> ::= op_de | op_pso
