@@ -77,18 +77,18 @@ def mut_pso(x1, x2, x3, **param):
     return u
 
 #cs Levi flight
-def mut_cs(x1, x2, x3, **param): 
-    beta = 3 / 2
-    sigma = (gamma(1 + beta) * sin(pi * beta / 2) / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))) ** (1 / beta)
-    w = np.array(np.random.standard_normal(x1.x.shape)) * sigma
-    v = np.array(np.random.standard_normal(x1.x.shape))
-    step = w / abs(v) ** (1 / beta)
+# def mut_cs(x1, x2, x3, **param): 
+#     beta = 3 / 2
+#     sigma = (gamma(1 + beta) * sin(pi * beta / 2) / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))) ** (1 / beta)
+#     w = np.array(np.random.standard_normal(x1.x.shape)) * sigma
+#     v = np.array(np.random.standard_normal(x1.x.shape))
+#     step = w / abs(v) ** (1 / beta)
 
-    x1.getFitness()
-    stepsize = 0.2 * step * (x1.x - x1.pbest)
-    u = x1.x + stepsize
+#     x1.getFitness()
+#     stepsize = 0.2 * step * (x1.x - x1.pbest)
+#     u = x1.x + stepsize
 
-    return u
+#     return u
 
 def crx_npoint(x1, x2, points):
     u = np.array([_ for _ in x1])
