@@ -131,7 +131,7 @@ def drop_probability(X, **params):
 
 #TODO:
 def drop_worst(X, **params):
-    #[X[i].getFitness() for i in range(X.shape[0])]
+    [X[i].getFitness() for i in range(X.shape[0])]
     u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
     u = sorted(u, key=lambda x:x[0])
     for i in range(20):
