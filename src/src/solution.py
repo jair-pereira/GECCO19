@@ -15,6 +15,18 @@ class solution(object):
     def updateHistory(X):
         solution.history = solution.history + [np.array([Xi.x for Xi in X])]
         return
+        
+    def __lt__(self, other):
+        return self.getFitness() < other.getFitness()
+        
+    def __le__(self, other):
+        return self.getFitness() <= other.getFitness()
+        
+    def __gt__(self, other):
+        return self.getFitness() > other.getFitness()
+        
+    def __ge__(self, other):
+        return self.getFitness() >= other.getFitness()
 
     def __init__(self, function, dimension, limits=(0,1)):
         self.x = np.zeros(dimension)
@@ -24,9 +36,12 @@ class solution(object):
         self.fitness = None
         self.limits = limits #static?
         
-        self.pbest = None
-        self.gbest = None #static?
+        #pso attributes
+        self.pbest_x = None
+        self.pbest_f = None
+        self.gbest   = None #static?
         self.velocity = np.zeros(dimension)
+        
         self.age = 0
         self.rank = None
     
@@ -37,10 +52,10 @@ class solution(object):
     def getFitness(self):
         if self.fitness == None:
             self.fitness = self.evaluate()
+            
+            self.updatePBest(self)
             solution.updateBest(self)
-        if(self.pbest == None or self.fitness > evaluate(self.pbest):
-            self.pbest = self.x
-        self.gbest = solution.best.x
+
         return self.fitness
     
     def clearFitness(self):
@@ -52,4 +67,9 @@ class solution(object):
     def initRandom(self):
         r = np.random.uniform(*self.limits, self.x.shape)
         self.setX(r)
-        self.getFitness()
+        
+    def updatePBest(self):
+         #special case:1st iteration (fix this later)
+        if(self.pbest_f == None or self.pbest_f > self.fitness):
+            self.pbest_x = self.x
+            self.pbest_f = self.fitness
