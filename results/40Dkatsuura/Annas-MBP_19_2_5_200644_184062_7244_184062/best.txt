@@ -1,0 +1,41 @@
+Generation:
+0
+
+Phenotype:
+import numpy as np
+import src
+import testFunctions as tf
+from animation import animation
+n = 50
+iteration = 30
+my_func = tf.katsuura
+dimension = 40
+bounds = -5, 5
+beta = .5
+pr = .7
+tournament = 5
+w = .5
+c1 = .5
+c2 = 1
+pa = .25
+dp = .1
+def ge():
+  X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+  [Xi.initRandom() for Xi in X]
+  src.solution.updateHistory(X)
+  for it in range(iteration):
+    X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+    X = src.op.replace_if_random(X, X1)
+    X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+    X = src.op.replace_if_best(X, X1)
+  return X
+ge()
+XXX_output_XXX = src.solution.best.getFitness()
+
+Genotype:
+[34, 77, 65, 28, 95, 17, 70, 47, 6, 16, 69, 30, 61, 77, 83, 72, 39, 16, 88, 32, 90, 98, 15, 13, 5, 84, 7, 67, 47, 77, 73, 43, 20, 100, 87, 98]
+Tree:
+(<S> (<init> import numpy as np{::}import src{::}import testFunctions as tf{::}from animation import animation{::} (<params> n = 50{::}iteration = 30{::}my_func = tf.katsuura{::}dimension = 40{::}bounds = -5, 5{::}beta = .5{::}pr = .7{::}tournament = 5{::}w = .5{::}c1 = .5{::}c2 = 1{::}pa = .25{::}dp = .1{::}) {::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}src.solution.updateHistory(X){::}for it in range(iteration):{: (<main> (<ModificationRound> (<step> X1 =  (<operator> (<pso> src.op.op_pso)) (X,  (<sel> (<random> src.op.select_random)) ,  (<mut> src.op.mut_de) ,  (<cross> src.op.crx_exponential) ){::}X =  (<output> (<replace_if_random> src.op.replace_if_random(X, X1)))) {::} (<step> X1 =  (<operator> (<pso> src.op.op_pso)) (X,  (<sel> (<random> src.op.select_random)) ,  (<mut> src.op.mut_de) ,  (<cross> src.op.crx_exponential) ){::}X =  (<output> (<replace_if_better> src.op.replace_if_best(X, X1)))))) :}{::}return X:}) {::} (<call> ge(){::}XXX_output_XXX = src.solution.best.getFitness()))
+
+Fitness:
+-0.0

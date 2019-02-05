@@ -9,15 +9,27 @@ import testFunctions as tf
 # the most basic example solver
 # ===============================================
 
-def ge(n, my_func, lb, ub, dimension, iteration):
+def franken30(n, my_func, lb, ub, dimension, iteration):
   X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
-  [Xi.initRandom() for Xi in X]
-  src.solution.updateHistory(X)
-  for it in range(iteration):
-    X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
-    X = src.op.replace_if_best(X, X1)
-    X = src.op.drop_probability(X)
-    src.solution.updateHistory(X)
+ [Xi.initRandom() for Xi in X]
+ src.solution.updateHistory(X)
+ for it in range(iteration):
+   X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+   X = src.op.replace_if_best(X, X1)
+   X = src.op.drop_probability(X)
+
+  return X
+
+def franken10(n, my_func, lb, ub, dimension, iteration):
+   X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+ [Xi.initRandom() for Xi in X]
+ src.solution.updateHistory(X)
+ for it in range(iteration):
+   X1 = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+   X = src.op.replace_if_random(X, X1)
+   X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+   X = X1
+
   return X
 
 

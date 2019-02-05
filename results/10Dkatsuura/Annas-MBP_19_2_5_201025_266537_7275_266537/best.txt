@@ -1,0 +1,39 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+import src
+import testFunctions as tf
+from animation import animation
+n = 50
+iteration = 30
+my_func = tf.katsuura
+dimension = 10
+bounds = -5, 5
+beta = .5
+pr = .7
+tournament = 5
+w = .5
+c1 = .5
+c2 = 1
+pa = .25
+dp = .1
+def ge():
+  X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+  [Xi.initRandom() for Xi in X]
+  src.solution.updateHistory(X)
+  for it in range(iteration):
+    X1 = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+    X = src.op.replace_if_best(X, X1)
+  return X
+ge()
+XXX_output_XXX = src.solution.best.getFitness()
+
+Genotype:
+[77, 51, 36, 84, 20, 52, 8, 63, 58, 56, 92, 43, 33, 28, 13, 40, 78, 84, 90, 91, 58, 29]
+Tree:
+(<S> (<init> import numpy as np{::}import src{::}import testFunctions as tf{::}from animation import animation{::} (<params> n = 50{::}iteration = 30{::}my_func = tf.katsuura{::}dimension = 10{::}bounds = -5, 5{::}beta = .5{::}pr = .7{::}tournament = 5{::}w = .5{::}c1 = .5{::}c2 = 1{::}pa = .25{::}dp = .1{::}) {::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}src.solution.updateHistory(X){::}for it in range(iteration):{: (<main> (<ModificationRound> (<step> X1 =  (<operator> (<de> src.op.op_de)) (X,  (<sel> (<random> src.op.select_random)) ,  (<mut> src.op.mut_de) ,  (<cross> src.op.crx_exponential) ){::}X =  (<output> (<replace_if_better> src.op.replace_if_best(X, X1)))))) :}{::}return X:}) {::} (<call> ge(){::}XXX_output_XXX = src.solution.best.getFitness()))
+
+Fitness:
+-0.0

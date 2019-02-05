@@ -34,7 +34,7 @@ def fmin(fun, lbounds, ubounds, dim, budget):
     return result
 
 ### prepare
-suite = cocoex.Suite(suite_name, "", "dimensions:2")
+suite = cocoex.Suite(suite_name, "", "function_indices:20,21,22,24 dimensions:2")
 observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
 minimal_print = cocoex.utilities.MiniPrint()
 
