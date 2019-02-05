@@ -4,3 +4,7 @@
 *.rdat
 *.tdat
 *.dat
+*.html
+*.pdf
+*.svg
+*.tex
