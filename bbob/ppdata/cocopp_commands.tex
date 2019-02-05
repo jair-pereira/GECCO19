@@ -5,8 +5,8 @@ Empirical cumulative distribution of simulated (bootstrapped)
              targets $10^{[-8..2]}$ in dimension #1.
 }
 \providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
-\providecommand{\algname}{swarmge-004{}}
-\providecommand{\algfolder}{swarmge-004/}
+\providecommand{\algname}{de-002{}}
+\providecommand{\algfolder}{de-002/}
 \providecommand{\bbobecdfcaptionallgroups}[1]{
 Empirical cumulative distribution of simulated (bootstrapped)
              runtimes, measured in number of objective function evaluations,
@@ -116,8 +116,105 @@ Empirical cumulative distribution of simulated (bootstrapped)
              targets $10^{[-8..2]}$ in dimension #1.
 }
 \providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
-\providecommand{\algname}{swarmge-002{}}
-\providecommand{\algfolder}{swarmge-002/}
+\providecommand{\numofalgs}{2+}
+\providecommand{\bbobECDFslegend}[1]{
+Bootstrapped empirical cumulative distribution of the number of objective function evaluations divided by dimension (FEvals/DIM) for $51$ targets with target precision in $10^{[-8..2]}$ for all functions and subgroups in #1-D. As reference algorithm, the best algorithm from BBOB 2009 is shown as light thick line with diamond markers.
+}
+\providecommand{\bbobppfigslegend}[1]{
+Average running time (\aRT\ in number of $f$-evaluations
+                    as $\log_{10}$ value), divided by dimension for target function value $10^{-8}$
+                    versus dimension. Slanted grid lines indicate quadratic scaling with the dimension. Different symbols correspond to different algorithms given in the legend of #1. Light symbols give the maximum number of function evaluations from the longest trial divided by dimension. Black stars indicate a statistically better result compared to all other algorithms with $p<0.01$ and Bonferroni correction number of dimensions (six).  
+Legend: 
+{\color{NavyBlue}$\circ$}: \algorithmA
+, {\color{Magenta}$\diamondsuit$}: \algorithmB
+}
+% define some COCO/dvipsnames colors because
+% ACM style does not allow to use them directly
+\definecolor{NavyBlue}{HTML}{000080}
+\definecolor{Magenta}{HTML}{FF00FF}
+\definecolor{Orange}{HTML}{FFA500}
+\definecolor{CornflowerBlue}{HTML}{6495ED}
+\definecolor{YellowGreen}{HTML}{9ACD32}
+\definecolor{Gray}{HTML}{BEBEBE}
+\definecolor{Yellow}{HTML}{FFFF00}
+\definecolor{GreenYellow}{HTML}{ADFF2F}
+\definecolor{ForestGreen}{HTML}{228B22}
+\definecolor{Lavender}{HTML}{FFC0CB}
+\definecolor{SkyBlue}{HTML}{87CEEB}
+\definecolor{NavyBlue}{HTML}{000080}
+\definecolor{Goldenrod}{HTML}{DDF700}
+\definecolor{VioletRed}{HTML}{D02090}
+\definecolor{CornflowerBlue}{HTML}{6495ED}
+\definecolor{LimeGreen}{HTML}{32CD32}
+
+\providecommand{\bbobppscatterlegend}[1]{
+Average running time (\aRT\ in $\log_{10}$ of number of function evaluations)
+        of \algorithmA\ ($y$-axis) versus \algorithmB\ ($x$-axis) for $21$ target values
+        $\Df \in [100, 10^{-8}]$ in each dimension on functions #1. Markers on the upper or right edge indicate that the respective target
+        value was never reached. Markers represent dimension:
+        2:{\color{cyan}+},
+        3:{\color{green!45!black}$\triangledown$},
+        5:{\color{blue}$\star$},
+        10:$\circ$,
+        20:{\color{red}$\Box$},
+        40:{\color{magenta}$\Diamond$}. 
+}
+\providecommand{\ntables}{7}
+\providecommand{\bbobpptablesmanylegend}[1]{%
+        Average runtime (\aRT\ in number of function 
+        evaluations) divided by the respective best \aRT\ measured during BBOB-2009 in
+        #1.
+        The \aRT\ and in braces, as dispersion measure, the half difference between 
+        10 and 90\%-tile of bootstrapped run lengths appear for each algorithm and 
+        %
+        target, the corresponding reference \aRT\
+        in the first row. The different target \Df-values are shown in the top row.
+        \#succ is the number of trials that reached the (final) target
+        $\fopt + 10^{-8}$.
+        %
+        The median number of conducted function evaluations is additionally given in 
+        \textit{italics}, if the target in the last column was never reached. 
+        Entries, succeeded by a star, are statistically significantly better (according to
+        the rank-sum test) when compared to all other algorithms of the table, with
+        $p = 0.05$ or $p = 10^{-k}$ when the number $k$ following the star is larger
+        than 1, with Bonferroni correction by the number of functions (24). A $\downarrow$ indicates the same tested against the best algorithm from BBOB 2009. Best results are printed in bold.
+        \cocoversion}
+\providecommand{\bbobpprldistrlegendtwo}[1]{
+%
+        Empirical cumulative distributions (ECDF)
+        of run lengths and speed-up ratios in 5-D (left) and 20-D (right).
+        Left sub-columns: ECDF of
+        the number of function evaluations divided by dimension $D$
+        (FEvals/D) %
+        to reach a target value $\fopt+\Df$ with $\Df=10^{k}$, where
+        $k$ is given by the first value in the legend, for
+        \algorithmA\ ({\color{Black}$\circ$}) and \algorithmB\ ({\color{Black}$\diamondsuit$})%
+        . Light beige lines show the ECDF of FEvals for target value
+        $\Df=10^{-8}$ of all algorithms benchmarked during
+        BBOB-2009. Right sub-columns:
+        ECDF of FEval ratios of \algorithmA\ divided by \algorithmB for target
+        function values $10^k$ with $k$ given in the legend; all
+        trial pairs for each function. Pairs where both trials failed are disregarded,
+        pairs where one trial failed are visible in the limits being $>0$ or $<1$. The
+        legend also indicates, after the colon, the number of functions that were
+        solved in at least one trial (\algorithmA\ first).
+}
+\providecommand{\algsfolder}{fa-00_fa-00/}
+\providecommand{\algorithmA}{fa-001}
+\providecommand{\algorithmB}{fa-002}
+\providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
+\providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
+\providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
+\providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
+\providecommand{\bbobecdfcaptionsinglefunctionssingledim}[1]{
+Empirical cumulative distribution of simulated (bootstrapped)
+             runtimes, measured in number of objective function evaluations,
+             divided by dimension (FEvals/DIM) for the $51$ 
+             targets $10^{[-8..2]}$ in dimension #1.
+}
+\providecommand{\cocoversion}{\hspace{\textwidth}\scriptsize\sffamily{}\color{Gray}Data produced with COCO v2.2.1.10}
+\providecommand{\algname}{swarmge-004{}}
+\providecommand{\algfolder}{swarmge-004/}
 \providecommand{\bbobecdfcaptionallgroups}[1]{
 Empirical cumulative distribution of simulated (bootstrapped)
              runtimes, measured in number of objective function evaluations,
