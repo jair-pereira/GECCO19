@@ -2,6 +2,7 @@ from algorithm.parameters import params
 from fitness.base_ff_classes.base_ff import base_ff
 import numpy as np
 from math import *
+from animation import animation, animation3D
 
 
 

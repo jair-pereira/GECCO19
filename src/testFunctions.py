@@ -2,8 +2,7 @@ from math import *
 
 
 def ackley_function(x):
-    return -exp(-sqrt(0.5*sum([i**2 for i in x]))) - \
-           exp(0.5*sum([cos(i) for i in x])) + 1 + exp(1)
+    return -20*exp(- 0.2 * sqrt(sum([i**2 for i in x])/len(x))) - exp(sum([cos(2*pi*i) for i in x])/ len(x)) + 20 + exp(1)
 
 
 def bukin_function(x):

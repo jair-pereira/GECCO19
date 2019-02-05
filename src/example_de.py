@@ -30,7 +30,7 @@ n = 30
 iteration = 50
 
 my_func   = tf.ackley_function
-dimension = 5
+dimension = 20
 bounds    = -10, 10
 
 beta = .5 
