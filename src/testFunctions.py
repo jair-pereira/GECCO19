@@ -1,5 +1,5 @@
 from math import *
-
+import numpy as np
 
 def ackley_function(x):
     return -20*exp(- 0.2 * sqrt(sum([i**2 for i in x])/len(x))) - exp(sum([cos(2*pi*i) for i in x])/ len(x)) + 20 + exp(1)
@@ -72,3 +72,23 @@ def beale_function(x):
 def drop_wave_function(x):
     return -(1 + cos(12*sqrt(sphere_function(x))))/(0.5*sphere_function(x) + 2)
 
+def katsuura(x):
+    def coco_double_round(number):
+        return floor(number + 0.5)
+
+    # translated from COCO
+    number_of_variables = len(x)
+
+    result = 1.0
+    for i in range(number_of_variables):
+        tmp = 0
+        for j in range(1, 33):
+            tmp2 = 2.**j
+            tmp += fabs(tmp2 * x[i] - coco_double_round(tmp2 * x[i])) / tmp2
+
+        tmp = 1.0 + (i + 1) * tmp
+        result *= tmp
+
+    result = 10. / (number_of_variables) / (number_of_variables) * (-1. + result**(10. / number_of_variables**1.2))
+
+    return result

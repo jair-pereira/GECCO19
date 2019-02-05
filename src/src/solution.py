@@ -3,6 +3,7 @@ import numpy as np
 class solution(object):
     best = None
     history = []
+    nfe = 0
 
     @staticmethod
     def updateBest(x):
@@ -46,7 +47,7 @@ class solution(object):
         self.rank = None
     
     def setX(self, x):
-        self.x = x
+        self.x = np.clip(x, *self.limits)
         self.clearFitness()
 
     def getFitness(self):
@@ -62,6 +63,7 @@ class solution(object):
         self.fitness = None
     
     def evaluate(self):
+        solution.nfe += 1
         return -self.function(self.x)
         
     def initRandom(self):
