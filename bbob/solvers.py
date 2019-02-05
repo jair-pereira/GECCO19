@@ -35,7 +35,7 @@ def franken10(n, my_func, lb, ub, dimension, iteration):
 
 def pso(n, my_func, lb, ub, dimension, iteration):
     #instantiate solutions 
-    X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+    X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     #initialize solutions 
     [Xi.initRandom() for Xi in X]
     for it in range(iteration):

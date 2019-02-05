@@ -1,0 +1,11 @@
+
+*.pyc
+*.info
+*.rdat
+*.tdat
+*.dat
+*.html
+*.pdf
+*.svg
+*.tex
+*.js
