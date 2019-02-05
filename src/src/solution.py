@@ -46,7 +46,7 @@ class solution(object):
         self.rank = None
     
     def setX(self, x):
-        self.x = x
+        self.x = np.clip(x, *self.limits)
         self.clearFitness()
 
     def getFitness(self):
