@@ -9,6 +9,18 @@ import testFunctions as tf
 # the most basic example solver
 # ===============================================
 
+def franken_katsuura(n, my_func, lb, ub, dimension, iteration):
+    X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
+    [Xi.initRandom() for Xi in X]
+    src.solution.updateHistory(X)
+    for it in range(iteration):
+        X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+        X = src.op.replace_if_best(X, X1)
+        X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+        X = src.op.replace_if_random(X, X1)
+    return X
+
+
 def franken30(n, my_func, lb, ub, dimension, iteration):
     X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     [Xi.initRandom() for Xi in X]
