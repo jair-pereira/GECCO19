@@ -1,0 +1,40 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+import src
+import testFunctions as tf
+from animation import animation
+n = 50
+iteration = 30
+my_func = tf.ackley_function
+dimension = 40
+bounds = -5, 5
+beta = .5
+pr = .7
+tournament = 5
+w = .5
+c1 = .5
+c2 = 1
+pa = .25
+dp = .1
+def ge():
+  X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+  [Xi.initRandom() for Xi in X]
+  src.solution.updateHistory(X)
+  for it in range(iteration):
+    X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+    X = src.op.replace_if_random(X, X1)
+    pass
+  return X
+ge()
+XXX_output_XXX = src.solution.best.getFitness()
+
+Genotype:
+[50, 90, 94, 73, 34, 20, 19, 51, 94, 54, 23, 21, 8, 61, 56, 99, 20, 8, 34, 46, 99, 83, 16, 46, 99, 83, 40, 10, 52, 44, 11, 81, 58, 3, 22]
+Tree:
+None
+
+Fitness:
+-2.7159022142342337e-08

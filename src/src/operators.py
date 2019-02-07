@@ -94,7 +94,7 @@ def mut_cs(x1, x2, x3):
     step = w / abs(v) ** (1 / beta)
 
     x1.getFitness()
-    stepsize = 0.2 * step * (x1.x - x1.pbest)
+    stepsize = 0.2 * step * (x1.x - x1.pbest_x)
     u = x1.x + stepsize
 
     return u
@@ -149,13 +149,13 @@ def drop_probability(X):
 
 #TODO:
 def drop_worst(X):
-    # [X[i].getFitness() for i in range(X.shape[0])]
-    # u = np.array([(X[i].fitness, i) for i in range(X.shape[0])])
-    # u = sorted(u, key=lambda x:x[0])
-    # for i in range(20):
-    #     if np.random.random() < pa:
-    #         ind = int(u[i][1])
-    #         X[ind].initRandom()
+    [X[i].getFitness() for i in range(X.shape[0])]
+    u = np.array([(X[i].fitness, i) for i in range(X.shape[0])])
+    u = sorted(u, key=lambda x:x[0])
+    for i in range(20):
+        if np.random.random() < pa:
+            ind = int(u[i][1])
+            X[ind].initRandom()
     return X
 
 #TODO:

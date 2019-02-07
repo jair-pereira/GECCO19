@@ -8,7 +8,7 @@ from animation import animation, animation3D
 
 class ackley_function(base_ff):
 
-    maximise = False
+    maximise = True
     
     def __init__(self):
         # Initialise base fitness function class.

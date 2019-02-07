@@ -94,7 +94,7 @@ def mut_cs(x1, x2, x3):
     step = w / abs(v) ** (1 / beta)
 
     x1.getFitness()
-    stepsize = 0.2 * step * (x1.x - x1.pbest)
+    stepsize = 0.2 * step * (x1.x - x1.pbest_x)
     u = x1.x + stepsize
 
     return u
@@ -121,6 +121,13 @@ def crx_exponential(x1, x2, func=crx_npoint):
     u, v = func(x1, x2, crossover_points)
     return u, v
 
+def crx_blend(x1, x2, **param):
+    gamma = (1 + 2*param['blend_alpha']) * np.random.uniform(0, 1) - param['blend_alpha']
+    u = (1 - gamma)*x1 + gamma*x2
+    v = gamma*x1 + (1 - gamma)*x2
+    
+    return u, v
+    
 def replace_if_best(X1, X2):
     U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
     return np.array(U)
@@ -142,13 +149,13 @@ def drop_probability(X):
 
 #TODO:
 def drop_worst(X):
-    # [X[i].getFitness() for i in range(X.shape[0])]
-    # u = np.array([(X[i].fitness, i) for i in range(X.shape[0])])
-    # u = sorted(u, key=lambda x:x[0])
-    # for i in range(20):
-    #     if np.random.random() < pa:
-    #         ind = int(u[i][1])
-    #         X[ind].initRandom()
+    [X[i].getFitness() for i in range(X.shape[0])]
+    u = np.array([(X[i].fitness, i) for i in range(X.shape[0])])
+    u = sorted(u, key=lambda x:x[0])
+    for i in range(20):
+        if np.random.random() < pa:
+            ind = int(u[i][1])
+            X[ind].initRandom()
     return X
 
 #TODO:

@@ -28,11 +28,11 @@ def pso():
     
 ##param
 n = 30
-iteration = 50
+iteration = 20
 
-my_func   = tf.ackley_function
-dimension = 20
-bounds    = -10, 10
+my_func   = tf.katsuura
+dimension = 40
+bounds    = -5, 5
 
 beta = .5 
 pr = .7
