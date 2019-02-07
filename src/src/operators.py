@@ -122,12 +122,13 @@ def crx_exponential(x1, x2, func=crx_npoint):
     u, v = func(x1, x2, crossover_points)
     return u, v
 
-def crx_blend(x1, x2, **param):
+def crx_blend(x1, x2):
     #based on deap's implementation (https://github.com/DEAP/deap/blob/master/deap/tools/crossover.py)
     gamma = (1 + 2*blend_alpha) * np.random.uniform(0, 1) - blend_alpha
     u = (1 - gamma)*x1 + gamma*x2
     v = gamma*x1 + (1 - gamma)*x2
     
+    return u
     return u, v
     
 def replace_if_best(X1, X2):
