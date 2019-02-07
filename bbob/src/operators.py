@@ -10,6 +10,7 @@ c1 = .5
 c2 = 1
 pa = .25
 dp = .1
+blend_alpha = .5
 
 #auxilary function for op_de
 def selection_for_op_de(X, sel):
@@ -122,7 +123,8 @@ def crx_exponential(x1, x2, func=crx_npoint):
     return u, v
 
 def crx_blend(x1, x2, **param):
-    gamma = (1 + 2*param['blend_alpha']) * np.random.uniform(0, 1) - param['blend_alpha']
+    #based on deap's implementation (https://github.com/DEAP/deap/blob/master/deap/tools/crossover.py)
+    gamma = (1 + 2*blend_alpha) * np.random.uniform(0, 1) - blend_alpha
     u = (1 - gamma)*x1 + gamma*x2
     v = gamma*x1 + (1 - gamma)*x2
     
