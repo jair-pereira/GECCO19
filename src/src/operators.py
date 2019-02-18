@@ -11,6 +11,7 @@ c2 = 1
 pa = .25
 dp = .1
 blend_alpha = .5
+pr_uni = .5
 
 #auxilary function for op_de
 def selection_for_op_de(X, sel):
@@ -71,6 +72,11 @@ def apply_op_de(xi, xr1, xr2, xr3, mut, cross):
     u = mut(xr1, xr2, xr3)
     v, _ = cross(xi.x, u)
     return v
+
+def mut_uniform(x, lb, ub):
+    u = [np.random.uniform(lb, ub) if np.random.random() < pr_uni else x[i] for i in range(len(x))]
+    
+    return u
 
 def mut_de(x1, x2, x3):
     u = x1.x + beta*(x2.x-x3.x)
