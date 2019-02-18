@@ -134,7 +134,7 @@ def crx_blend(x1, x2):
     u = (1 - gamma)*x1 + gamma*x2
     v = gamma*x1 + (1 - gamma)*x2
     
-    return u
+    #return u
     return u, v
     
 def replace_if_best(X1, X2):
