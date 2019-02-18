@@ -63,8 +63,27 @@ def op_pso(X, sel, mut, cross): # this function will recieve some type of select
     return np.array(U)
 
 
-#TODO:
-#def op_ga(X, sel, mut, cross, **param): 
+
+def op_blend(X, sel, mut, cross):
+    sel = selection_for_op_de(X, sel)
+    U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
+    u = np.array([mut(X[k].x, X[l].x) for k,l,m,n in sel])
+    
+    for i in range(len(U)): 
+        U[i].setX(u[i]) 
+    
+    return np.array(U)
+    
+def op_mutU(X, sel, mut, cross):
+    sel = selection_for_op_de(X, sel)
+    U = np.array([solution(X[0].function, X[0].x.shape[0], X[0].limits) for i in range(X.shape[0])])
+    u = np.array([mut(X[k].x, *X[k].limits) for k,l,m,n in sel])
+    
+    for i in range(len(U)): 
+        U[i].setX(u[i]) 
+    
+    return np.array(U)
+    
 
 
 #auxilary function to op_de

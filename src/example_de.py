@@ -26,10 +26,10 @@ def de():
     return X
     
 ##param
-n = 30
+n = 200
 iteration = 50
 
-my_func   = tf.ackley_function
+my_func   = tf.katsuura
 dimension = 20
 bounds    = -10, 10
 
@@ -38,5 +38,5 @@ pr = .7
 
 
 de()
-# src.solution.best.getFitness()
+print(src.solution.best.getFitness())
 animation(src.solution.history, my_func, *bounds)

@@ -27,12 +27,12 @@ def pso():
     return X
     
 ##param
-n = 30
-iteration = 20
+n = 200
+iteration = 50
 
 my_func   = tf.katsuura
-dimension = 40
-bounds    = -5, 5
+dimension = 20
+bounds    = -10, 10
 
 beta = .5 
 pr = .7
@@ -42,6 +42,5 @@ c1 = .5
 c2 = 1
 
 pso()
-#print(src.solution.best.getFitness())
-
+print(src.solution.best.getFitness())
 animation(src.solution.history, my_func, *bounds)
