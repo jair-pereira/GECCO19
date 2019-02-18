@@ -1,42 +1,27 @@
 import numpy as np
-import src
+from src import *
 
 import testFunctions as tf
 from animation import animation, animation3D
 
-def de():
+def de(n, my_func, bounds, dimension, max_nfe):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
     #instantiate solutions 
-    X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
-    #initialize solutions 
-    [Xi.initRandom() for Xi in X]
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
     
-    #just so we can have some animations
-    src.solution.updateHistory(X) # it is not necessary for the grammar
+    Solution.updateHistory(X)
     
-    for it in range(iteration):
-        #1. Select individuals for modification in this round
-        # none - select all. Alternative (bee algorythm) is to select only solutions drawn with fitness-dependant probability
-        #2. de_operator = create an alternative set of solutions X1 using mutation+crossover
-        X1  = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
-        #3. Select individual for the next generation
-        X = src.op.replace_if_best(X, X1)
+    while Solution.nfe < max_nfe:
+        #1. DE mutation -> Exponential crossover
+        X1  = op.op_de(X, op.select_random, op.mut_de, op.crx_exponential)        
+        #3. update rule
+        X = op.replace_if_best(X, X1)
         
-        src.solution.updateHistory(X) 
+        Solution.updateHistory(X) 
 
-    return X
+    return Solution, X
     
-##param
-n = 200
-iteration = 50
-
-my_func   = tf.katsuura
-dimension = 20
-bounds    = -10, 10
-
-beta = .5 
-pr = .7 
-
-
-de()
-print(src.solution.best.getFitness())
-animation(src.solution.history, my_func, *bounds)
+resultDE = de(n=250, my_func=tf.katsuura, bounds=(-10, 10), dimension=20, max_nfe=250*250)
+resultDE[0].print()
+animation(resultDE[0].history, resultDE[0].function, *resultDE[0].bounds)

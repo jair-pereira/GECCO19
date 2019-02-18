@@ -1,44 +1,30 @@
 import numpy as np
-import src
+from src import *
 
 import testFunctions as tf
 from animation import animation, animation3D
 
-def ga():
+def ga(n, my_func, bounds, dimension, max_nfe):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
     #instantiate solutions 
-    X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
-    #initialize solutions 
-    [Xi.initRandom() for Xi in X]
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
     
-    #just so we can have some animations
-    src.solution.updateHistory(X)
+    Solution.updateHistory(X)
     
-    for it in range(iteration):
-        X1  = src.op.op_blend(X, src.op.select_random, src.op.crx_blend, None)
-        X = X1
-        X1  = src.op.op_mutU(X, src.op.select_random, src.op.mut_uniform, None)
-        X = src.op.replace_if_best(X, X1)
+    while Solution.nfe < max_nfe:
+        #1. blend crossover
+        X1  = op.op_blend(X, op.select_random, op.crx_blend, None)
+        #1. update-rule
+        # X = X1
+        #2. uniform mutation
+        X1  = op.op_mutU(X, op.select_random, op.mut_uniform, None)
+        #2. update-rule 
+        X = op.replace_if_best(X, X1)
         
-        src.solution.updateHistory(X) 
+        Solution.updateHistory(X)
+    return Solution, X
 
-
-    return X
-    
-##param
-n = 200
-iteration = 50
-
-my_func   = tf.katsuura
-dimension = 20
-bounds    = -10, 10
-
-beta = .5 
-pr = .7
-tournamment = 5
-w = .5 
-c1 = .5 
-c2 = 1
-
-ga()
-print(src.solution.best.getFitness())
-animation(src.solution.history, my_func, *bounds)
+resultGA = ga(n=250, my_func=tf.katsuura, bounds=(-10, 10), dimension=20, max_nfe=250*250)
+resultGA[0].print()
+animation(resultGA[0].history, resultGA[0].function, *resultGA[0].bounds)
