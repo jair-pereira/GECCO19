@@ -19,6 +19,7 @@ c1 = .5
 c2 = 1
 pa = .25
 dp = .1
+blend_alpha = .5
 def ge():
   X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
   [Xi.initRandom() for Xi in X]
@@ -26,15 +27,17 @@ def ge():
   for it in range(iteration):
     X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
     X = src.op.replace_if_random(X, X1)
-    pass
+    X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+    X = src.op.replace_if_random(X, X1)
+    X = src.op.drop_probability(X)
   return X
 ge()
 XXX_output_XXX = src.solution.best.getFitness()
 
 Genotype:
-[50, 90, 94, 73, 34, 20, 19, 51, 94, 54, 23, 21, 8, 61, 56, 99, 20, 8, 34, 46, 99, 83, 16, 46, 99, 83, 40, 10, 52, 44, 11, 81, 58, 3, 22]
+[34, 54, 63, 15, 99, 16, 83, 62, 30, 98, 1, 20, 8, 8, 54, 1, 36, 87, 8, 70, 8, 65, 73, 0, 57, 32, 73, 101, 55, 43, 73, 101, 29, 43, 29, 59, 54, 53, 12, 27, 19, 44, 5, 21, 43, 12, 68, 24, 88]
 Tree:
 None
 
 Fitness:
--2.7159022142342337e-08
+-3.8054004392051866e-12

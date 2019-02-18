@@ -7,8 +7,8 @@ CROSSOVER_PROBABILITY:   0.75
 DEBUG:                   False
 ELITE_SIZE:              1
 ERROR_METRIC:            None
-EXPERIMENT_NAME:         ackley40D10
-FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/src/../results/ackley40D10/Annas-MBP_19_2_7_111020_285501_10417_285501
+EXPERIMENT_NAME:         katsuura40D30
+FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/src/../results/katsuura40D30/Annas-MBP_19_2_7_120143_922584_10975_922584
 FITNESS_FUNCTION:        ackley_function
 GENERATIONS:             30
 GENERATION_SIZE:         29
@@ -40,7 +40,7 @@ OPTIMIZE_CONSTANTS:      False
 PARAMETERS:              ge.txt
 PERMUTATION_RAMPS:       5
 POPULATION_SIZE:         30
-RANDOM_SEED:             285501
+RANDOM_SEED:             922584
 REPLACEMENT:             generational
 REVERSE_MAPPING_TARGET:  None
 RUNS:                    1
@@ -57,7 +57,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              Annas-MBP_19_2_7_111020_285501_10417_285501
+TIME_STAMP:              Annas-MBP_19_2_7_120143_922584_10975_922584
 TOURNAMENT_SIZE:         2
 VERBOSE:                 True
 WITHIN_USED:             True

@@ -12,7 +12,6 @@ import testFunctions as tf
 def franken_katsuura(n, my_func, lb, ub, dimension, iteration):
     X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     [Xi.initRandom() for Xi in X]
-    src.solution.updateHistory(X)
     for it in range(iteration):
         X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
         X = src.op.replace_if_best(X, X1)
@@ -21,19 +20,30 @@ def franken_katsuura(n, my_func, lb, ub, dimension, iteration):
     return X
 
 
-def new_franken30():
-    X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+def new_franken30(n, my_func, lb, ub, dimension, iteration):
+    X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     [Xi.initRandom() for Xi in X]
-    src.solution.updateHistory(X)
     for it in range(iteration):
+        X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_blend)
+        X = src.op.replace_if_best(X, X1)
         X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
-        X = src.op.replace_if_random(X, X1)
+        X = src.op.replace_if_best(X, X1)
+        X = src.op.drop_probability(X)
+    return X
+
+def new_franken10(n, my_func, lb, ub, dimension, iteration):
+    X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
+    [Xi.initRandom() for Xi in X]
+    for it in range(iteration):
+        X1 = src.op.op_de(X, src.op.select_random, src.op.mut_pso, src.op.crx_blend)
+        X = src.op.replace_if_best(X, X1)
+        X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_blend)
+        X = src.op.replace_if_best(X, X1)
     return X
 
 def franken30(n, my_func, lb, ub, dimension, iteration):
     X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     [Xi.initRandom() for Xi in X]
-    src.solution.updateHistory(X)
     for it in range(iteration):
         X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
         X = src.op.replace_if_best(X, X1)
@@ -44,7 +54,6 @@ def franken30(n, my_func, lb, ub, dimension, iteration):
 def franken10(n, my_func, lb, ub, dimension, iteration):
     X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     [Xi.initRandom() for Xi in X]
-    src.solution.updateHistory(X)
     for it in range(iteration):
         X1 = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
         X = src.op.replace_if_random(X, X1)
@@ -84,7 +93,7 @@ def de(n, my_func, lb, ub, dimension, iteration):
 
 def cs(n, my_func, lb, ub, dimension, iteration):
     #instantiate solutions 
-    X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)])
+    X = np.array([src.solution(my_func, dimension, (lb, ub)) for i in range(n)])
     #initialize solutions 
     [Xi.initRandom() for Xi in X]
     for it in range(iteration):

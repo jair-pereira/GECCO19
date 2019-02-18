@@ -28,7 +28,7 @@ def cs():
     return X
     
 ##param
-n = 30
+n = 50
 iteration = 50
 
 my_func   = tf.ackley_function

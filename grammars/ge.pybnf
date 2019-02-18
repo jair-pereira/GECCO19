@@ -5,7 +5,7 @@
 <init> ::= import numpy as np{::}import src{::}import testFunctions as tf{::}from animation import animation{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}src.solution.updateHistory(X){::}for it in range(iteration):{:<main>:}{::}return X:}
 
 # parameters
-<params> ::= n = 50{::}iteration = 10{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -5, 5{::}beta = .5{::}pr = .7{::}tournament = 5{::}w = .5{::}c1 = .5{::}c2 = 1{::}pa = .25{::}dp = .1{::}
+<params> ::= n = 50{::}iteration = 30{::}my_func = tf.katsuura{::}dimension = 10{::}bounds = -5, 5{::}beta = .5{::}pr = .7{::}tournament = 5{::}w = .5{::}c1 = .5{::}c2 = 1{::}pa = .25{::}dp = .1{::}blend_alpha = .5{::}
 
 # branching starts here
 <main> ::= <ModificationRound> |<ModificationRound>{::}<DropRound>
@@ -21,9 +21,9 @@
 <sel> ::= <random> # | <tournament>
 <random> ::= src.op.select_random 
 
-<cross> ::= src.op.crx_exponential # | src.op.crx_npoint
+<cross> ::= src.op.crx_exponential | src.op.crx_blend
 
-<mut> ::= src.op.mut_de | src.op.mut_pso 
+<mut> ::= src.op.mut_de | src.op.mut_pso | src.op.mut_cs
 
 # ways to choose between X and X1
 <output> ::= <choose_all> | <replace_if_better> | <replace_if_random>
@@ -33,7 +33,7 @@
 
 <DropRound> ::= <DropRandom>|<DropWorst>|<DropOld>
 <DropRandom> ::= X = src.op.drop_probability(X){::} 
-<DropWorst> ::= X = src.op.drop_worst(X) {::}
+<DropWorst> ::= X = src.op.drop_worst(X){::}
 <DropOld> ::= pass 
 
 <call> ::= ge(){::}XXX_output_XXX = src.solution.best.getFitness()

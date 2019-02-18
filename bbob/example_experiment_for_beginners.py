@@ -24,13 +24,13 @@ import solvers
 
 ### input
 suite_name = "bbob"
-output_folder = "de"
+output_folder = "franken30"
 fmin = scipy.optimize.fmin
 budget_multiplier = 1000  # increase to 10, 100, ...
 
 # fmin is re-defined to call our solver
 def fmin(fun, lbounds, ubounds, dim, budget):
-    result = solvers.de(50, fun, lbounds, ubounds, dim, 30)
+    result = solvers.new_franken30(50, fun, lbounds, ubounds, dim, 30)
     return result
 
 ### prepare
