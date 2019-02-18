@@ -2,38 +2,53 @@
 
 # Initialization, no branching
 <S> ::= <init>{::}<call>
-<init> ::= import numpy as np{::}import src{::}import testFunctions as tf{::}from animation import animation{::}<params>{::}def ge():{:X = np.array([src.solution(my_func, dimension, bounds) for i in range(n)]){::}[Xi.initRandom() for Xi in X]{::}src.solution.updateHistory(X){::}for it in range(iteration):{:<main>:}{::}return X:}
+<init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}<params>{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:<main>:}{::}return X:}
 
 # parameters
-<params> ::= n = 50{::}iteration = 10{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -5, 5{::}beta = .5{::}pr = .7{::}tournament = 5{::}w = .5{::}c1 = .5{::}c2 = 1{::}pa = .25{::}dp = .1{::}
+<params> ::= n=<n>{::}max_nfe = 100{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -5, 5{::}
+<n> ::= 50 | 100 | 200 | 400 | 800 |1600
 
 # branching starts here
 <main> ::= <ModificationRound> |<ModificationRound>{::}<DropRound>
 
 <ModificationRound> ::= <step> | <step>{::}<step> 
-<step> ::= X1 = <operator>(X, <sel>, <mut>, <cross>){::}X = <output>
+<step> ::= <param>{::}X1 = <operator>(X, <sel>, <mut>, <cross>){::}X = <output>
 
-# producing different versions of X1
-<operator> ::= <de> | <pso>
-<de> ::= src.op.op_de 
-<pso> ::= src.op.op_pso
-	
+<operator> ::= <op1> | <op2>	
 <sel> ::= <random> # | <tournament>
-<random> ::= src.op.select_random 
+<cross> ::= <cross_exp> | <cross_blend>
+<mut> ::= <de> | <pso>
 
-<cross> ::= src.op.crx_exponential # | src.op.crx_npoint
+<param> ::= w=<w>{::}c1=<c1>{::}c2=<c2>{::}beta=<beta>{::}pr=<pr>
 
-<mut> ::= src.op.mut_de | src.op.mut_pso 
+<op1> ::= op.op_de 
+<op2> ::= op.op_pso
+
+<random> ::= op.select_random 
+
+<cross_exp> ::= op.crx_exponential
+<pr> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+
+<cross_blend> ::= op.crx_exponential
+<alpha> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+
+<de>   ::= op.mut_de
+<beta> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+
+<pso> ::= op.mut_pso
+<w>   ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+<c1>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+<c2>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
 
 # ways to choose between X and X1
 <output> ::= <choose_all> | <replace_if_better> | <replace_if_random>
 <choose_all> ::= X1 
-<replace_if_better> ::= src.op.replace_if_best(X, X1) 
-<replace_if_random> ::= src.op.replace_if_random(X, X1)
+<replace_if_better> ::= op.replace_if_best(X, X1) 
+<replace_if_random> ::= op.replace_if_random(X, X1)
 
 <DropRound> ::= <DropRandom>|<DropWorst>|<DropOld>
-<DropRandom> ::= X = src.op.drop_probability(X){::} 
-<DropWorst> ::= X = src.op.drop_worst(X) {::}
+<DropRandom> ::= X = op.drop_probability(X){::} 
+<DropWorst> ::= X = op.drop_worst(X) {::}
 <DropOld> ::= pass 
 
-<call> ::= ge(){::}XXX_output_XXX = src.solution.best.getFitness()
+<call> ::= ge(n, my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()
