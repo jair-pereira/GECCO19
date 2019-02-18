@@ -9,3 +9,7 @@
 *.svg
 *.tex
 *.js
+*.pyc
+.DS_Store
+.DS_Store
+*.pyc
