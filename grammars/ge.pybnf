@@ -2,14 +2,14 @@
 
 # Initialization, no branching
 <S> ::= <init>{::}<call>
-<init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}<params>{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:<main>:}{::}return X:}
+<init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}<params>{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:<main>:}{::}return X:}
 
 # parameters
-<params> ::= n=<n>{::}max_nfe = 100{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -5, 5{::}
-<n> ::= 50 | 100 | 200 | 400 | 800 |1600
+<params> ::= n=<n>{::}max_nfe = 50{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -10, 10{::}
+<n> ::= 10#50 | 100 | 200 | 400 | 800 |1600
 
 # branching starts here
-<main> ::= <ModificationRound> |<ModificationRound>{::}<DropRound>
+<main> ::= <ModificationRound> |<ModificationRound>{::}<param><DropRound>
 
 <ModificationRound> ::= <step> | <step>{::}<step> 
 <step> ::= <param>{::}X1 = <operator>(X, <sel>, <mut>, <cross>){::}X = <output>
@@ -19,7 +19,7 @@
 <cross> ::= <cross_exp> | <cross_blend>
 <mut> ::= <de> | <pso>
 
-<param> ::= w=<w>{::}c1=<c1>{::}c2=<c2>{::}beta=<beta>{::}pr=<pr>
+<param> ::= op.param = {"'w'":<w>,"'c1'":<c1>,"'c2'":<c2>,"'alpha'":<alpha>,"'beta'":<beta>,"'pr'":<pr>}{::}
 
 <op1> ::= op.op_de 
 <op2> ::= op.op_pso
@@ -29,7 +29,7 @@
 <cross_exp> ::= op.crx_exponential
 <pr> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
 
-<cross_blend> ::= op.crx_exponential
+<cross_blend> ::= op.crx_blend
 <alpha> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
 
 <de>   ::= op.mut_de
