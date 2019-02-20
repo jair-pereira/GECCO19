@@ -18,3 +18,10 @@ SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                True
 
+#####
+
+ITERATIONS:				30
+DIMENSION:				10
+POPULATION:				30
+BOUNDS:					-5, 5
+FUNCTION:				tf.ackley_function
