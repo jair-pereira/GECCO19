@@ -2,26 +2,40 @@ import numpy as np
 from math import gamma, pi, sin
 from .solution import *
 
-### this should be removed soon
-beta = .5 
-pr = .7 
-tournamment = 5
-w = .5 
-c1 = .5 
-c2 = 1
-pa = .25
-dp = .1
-
-
-param_blend_alpha = .5
-param_mutuni_pr = .5
-###
-
 ### INITIALIZATION METHODS ###
 def init_random(lb, ub, dimension):
     return np.random.uniform(lb, ub, dimension)
 
-### x ###
+### OPERATORS ###
+## BLEND
+# legacy
+def op_blend(X, sel, mut, cross):
+    sel = selection_for_op_de(X, sel)
+    U = Solution.initialize(X.shape[0])
+    u = np.array([mut(X[k].x, X[l].x) for k,l,m,n in sel])
+    
+    for i in range(len(U)): 
+        U[i].setX(u[i]) 
+    
+    return np.array(U)
+# wrapper doing it
+def op_blend(S, alpha):
+    u = np.array([crx_blend(S[k].x, S[l].x) for k,l in sel])
+    
+    for i in range(len(U)): 
+        U[i].setX(u[i]) 
+    
+    return np.array(U)
+# main
+def crx_blend(x1, x2):
+    #based on deap's implementation (https://github.com/DEAP/deap/blob/master/deap/tools/crossover.py)
+    gamma = (1 + 2*param['alpha']) * np.random.uniform(0, 1) - param['alpha']
+    u = (1 - gamma)*x1 + gamma*x2
+    v = gamma*x1 + (1 - gamma)*x2
+    
+    return u, v
+
+
 #auxilary function for op_de
 def selection_for_op_de(X, sel):
     idx_tmp = np.arange(X.shape[0])
@@ -50,15 +64,15 @@ def select_random(X, array, k, replace=False):
 #for now, lets make separate functions for each operator but we'll introduce some variation with parameters
 #all "op_" functions produce an alternative population of Solutions X1 which we will accept or regect at output stage
 
-def op_de(X, sel, mut, cross): 
+def op_de(X, sel, mut, cross):
     sel = selection_for_op_de(X, sel)
-    U = Solution.initialize(X.shape[0])
+    # U = Solution.initialize(X.shape[0])
     u = np.array([apply_op_de(X[k], X[l], X[m], X[n], mut, cross) for k,l,m,n in sel])
     
-    for i in range(len(U)): 
-        U[i].setX(u[i]) 
+    for i in range(len(X)): 
+        X[i].setX(u[i]) 
     
-    return np.array(U)
+    return X#np.array(U)
 
 #PSO-operator. Updates each Solution that is passed to it with one of the <mut> step operators
 def op_pso(X, sel, mut, cross): # this function will recieve some type of select and crossover parameters but will not use them
@@ -68,22 +82,12 @@ def op_pso(X, sel, mut, cross): # this function will recieve some type of select
     
     for i in range(len(X)): 
         X[i].setX(u[i])
-        # U[i].velocity = X[i].velocity
-        # U[i].pbest = X[i].pbest
 
     return X#np.array(U)
 
 
 
-def op_blend(X, sel, mut, cross):
-    sel = selection_for_op_de(X, sel)
-    U = Solution.initialize(X.shape[0])
-    u = np.array([mut(X[k].x, X[l].x) for k,l,m,n in sel])
-    
-    for i in range(len(U)): 
-        U[i].setX(u[i]) 
-    
-    return np.array(U)
+
     
 def op_mutU(X, sel, mut, cross):
     sel = selection_for_op_de(X, sel)
@@ -104,19 +108,19 @@ def apply_op_de(xi, xr1, xr2, xr3, mut, cross):
     return v
 
 def mut_uniform(x, lb, ub):
-    u = [np.random.uniform(lb, ub) if np.random.random() < param_mutuni_pr else x[i] for i in range(len(x))]
+    u = [np.random.uniform(lb, ub) if np.random.random() < param['pr'] else x[i] for i in range(len(x))]
     
     return u
 
 def mut_de(x1, x2, x3):
-    u = x1.x + beta*(x2.x-x3.x)
+    u = x1.x + param['beta']*(x2.x-x3.x)
     return u
 
 #pso velocity update (potentially can be called from op_de on <mut> operator)
-def mut_pso(x1, x2, x3): 
+def mut_pso(x1, x2, x3):
     r1 = np.random.random(x1.x.shape)
     r2 = np.random.random(x1.x.shape)
-    x1.velocity = w*x1.velocity + c1*r1*(x1.pbest['x'] - x1.x) + c2*r2*(Solution.best.x - x1.x)
+    x1.velocity = param['w']*x1.velocity + param['c1']*r1*(x1.pbest['x'] - x1.x) + param['c2']*r2*(Solution.best.x - x1.x)
     u = x1.velocity + x1.x
         
     return u
@@ -149,21 +153,12 @@ def crx_exponential(x1, x2, func=crx_npoint):
     i = np.random.choice(all_points)    #ensure at least one point
     crossover_points = [all_points[i]]
 
-    while pr >= np.random.uniform(0, 1) and len(crossover_points) < len(all_points):
+    while param['pr'] >= np.random.uniform(0, 1) and len(crossover_points) < len(all_points):
         i = (i+1) % len(all_points)
         crossover_points = crossover_points + [all_points[i]]
         
     
     u, v = func(x1, x2, crossover_points)
-    return u, v
-
-def crx_blend(x1, x2):
-    #based on deap's implementation (https://github.com/DEAP/deap/blob/master/deap/tools/crossover.py)
-    gamma = (1 + 2*param_blend_alpha) * np.random.uniform(0, 1) - param_blend_alpha
-    u = (1 - gamma)*x1 + gamma*x2
-    v = gamma*x1 + (1 - gamma)*x2
-    
-    return u
     return u, v
     
 def replace_if_best(X1, X2):
@@ -179,7 +174,7 @@ def replace_if_random(X1, X2):
 #TODO:
 def drop_probability(X):
     for i in range(X.shape[0]):
-        if np.random.random() < dp:
+        if np.random.random() < param['pr']:
             X[i].setX(init_random(*type(X[i]).bounds, type(X[i]).dimension))
             X[i].getFitness()
     return X
@@ -190,7 +185,7 @@ def drop_worst(X):
     u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
     u = sorted(u, key=lambda x:x[0])
     for i in range(int(len(X)*.25)):
-        if np.random.random() < pa:
+        if np.random.random() < param['pr']:
             ind = int(u[i][1])
             X[ind].setX(init_random(*type(X[ind]).bounds, type(X[ind]).dimension))
     return X
