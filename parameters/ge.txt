@@ -1,11 +1,11 @@
 CACHE:                  True
-CODON_SIZE:             100
+CODON_SIZE:             10000
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
 GENERATIONS:            30
 MAX_GENOME_LENGTH:      50
-GRAMMAR_FILE:           short_ge.pybnf
+GRAMMAR_FILE:           ge.pybnf
 INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    10

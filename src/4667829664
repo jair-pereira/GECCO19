@@ -1,0 +1,4 @@
+import src
+X1 = src.op.op_de(X, src.op.select_random, src.op.mut_de, src.op.crx_exponential)
+X = X1
+X = src.op.drop_worst(X)

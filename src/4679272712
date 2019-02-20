@@ -1,0 +1,6 @@
+import src
+X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_de, src.op.crx_blend)
+X = X1
+X1 = src.op.op_de(X, src.op.select_random, src.op.mut_cs, src.op.crx_exponential)
+X = X1
+X = src.op.drop_worst(X)
