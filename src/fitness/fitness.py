@@ -25,7 +25,6 @@ class fitness(base_ff):
         # Exec the phenotype.
         try:
             exec(p, d)
-            #print(p,  file=open(str(id(ind)), 'w'))
         except Exception as err:
             print(p)
             print(err)
@@ -34,6 +33,5 @@ class fitness(base_ff):
         # Get the output
         s = d['XXX_output_XXX']  # this is the program's output: a number.
         
-        #return 1
         return s
 

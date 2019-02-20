@@ -1,4 +1,0 @@
-import src
-X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
-X = X1
-pass
