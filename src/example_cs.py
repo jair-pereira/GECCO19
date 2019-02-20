@@ -25,6 +25,8 @@ def cs(n, my_func, bounds, dimension, max_nfe):
         Solution.updateHistory(X)
     return Solution, X
     
+
 resultCS = cs(n=250, my_func=tf.katsuura, bounds=(-10, 10), dimension=20, max_nfe=250*250)
 resultCS[0].print()
 animation(resultCS[0].history, resultCS[0].function, *resultCS[0].bounds)
+

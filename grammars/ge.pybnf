@@ -2,6 +2,7 @@
 
 # Initialization, no branching
 <S> ::= <init>{::}<call>
+
 <init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:<main>:}{::}return X:}{::}
 
 # BRANCHING STARTS HERE
@@ -16,6 +17,7 @@
 <output> ::= <choose_all> | <replace_if_better> | <replace_if_random>
 <DropRound> ::= <DropRandom>|<DropWorst>|<DropOld>
 
+
 #wrappers
 <op1> ::= op.op_de 
 <op2> ::= op.op_pso
@@ -23,13 +25,16 @@
 #selection
 <random> ::= op.select_random 
 
+
 #crossover
 <cross_exp> ::= op.crx_exponential
 <cross_blend> ::= op.crx_blend
 
+
 #mutation
 <de>  ::= op.mut_de
 <pso> ::= op.mut_pso
+
 
 #update-rule / keep-rule
 <choose_all> ::= X1 

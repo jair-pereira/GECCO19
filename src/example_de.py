@@ -2,7 +2,7 @@ import numpy as np
 from src import *
 
 import testFunctions as tf
-from animation import animation, animation3D
+#from animation import animation, animation3D
 
 def de(n, my_func, bounds, dimension, max_nfe):
     Solution.setProblem(my_func, bounds, dimension, maximize=False)

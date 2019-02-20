@@ -1,0 +1,17 @@
+Generation:
+30
+
+Phenotype:
+import src
+X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_blend)
+X = src.op.replace_if_best(X, X1)
+X1 = src.op.op_de(X, src.op.select_random, src.op.mut_pso, src.op.crx_blend)
+X = src.op.replace_if_best(X, X1)
+
+Genotype:
+[28, 20, 17, 23, 51, 69, 26, 13, 64, 25, 88, 1, 27, 72, 17, 56, 57, 4, 63, 67, 17, 30, 86, 7, 26, 88, 1, 42, 81, 48, 100]
+Tree:
+None
+
+Fitness:
+-3.9968028886505635e-15

@@ -160,6 +160,7 @@ def crx_exponential(x1, x2, func=crx_npoint):
     
     u, v = func(x1, x2, crossover_points)
     return u, v
+
     
 def replace_if_best(X1, X2):
     U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
