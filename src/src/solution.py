@@ -61,7 +61,7 @@ class Solution(object):
         
     # PSO
     def updatePBest(self):
-        if(self.pbest == {} or self.fitness >= self.pbest['fitness']):
+        if(self.pbest == {} or self.getFitness() >= self.pbest['fitness']):
             self.pbest['x']       = self.x
             # self.pbest['fitness'] = self.getFitness()
             self.pbest['fitness'] = self.fitness

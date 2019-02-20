@@ -2,6 +2,8 @@ import numpy as np
 from math import gamma, pi, sin
 from .solution import *
 
+# param = {"w":1,"c1":1,"c2":1,"alpha":.7,"beta":.5,"pr":.6}
+
 ### INITIALIZATION METHODS ###
 def init_random(lb, ub, dimension):
     return np.random.uniform(lb, ub, dimension)
