@@ -1,0 +1,34 @@
+Generation:
+0
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    op.param = {'w':2.00,'c1':2.00,'c2':2.00,'alpha':2.00,'beta':0.25,'pr':1.00}
+    X1 = op.op_de(X, op.select_random, op.mut_de, op.crx_exponential)
+    X = X1
+    op.param = {'w':0.50,'c1':1.00,'c2':0.25,'alpha':0.25,'beta':0.25,'pr':1.00}
+    X1 = op.op_pso(X, op.select_random, op.mut_pso, op.crx_blend)
+    X = op.replace_if_random(X, X1)
+    op.param = {'w':1.00,'c1':0.25,'c2':0.50,'alpha':0.00,'beta':0.75,'pr':0.00}
+    X = op.drop_worst(X) 
+  return X
+ge(n=10, my_func=tf.ackley_function, bounds=(-5,5), dimension=40, max_nfe=30)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[92, 15, 93, 48, 63, 49, 27, 97, 95, 72, 44, 18, 25, 13, 15, 90, 81, 68, 22, 25, 11, 92, 54, 15, 52, 7, 94, 47, 21, 43, 88, 75, 16, 89, 33, 13, 68, 97, 42, 81, 55, 36, 23, 34, 35, 33, 101, 56, 31, 11, 87, 11, 36, 29, 85, 23, 48, 71, 9, 7, 45, 69, 16, 39, 94, 19, 80, 43, 40, 64, 55, 56, 49, 90, 68, 77]
+Tree:
+(<S> (<init> import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{: (<main> (<ModificationRound> (<step> (<param> op.param = {'w': (<w> 2.00) ,'c1': (<c1> 2.00) ,'c2': (<c2> 2.00) ,'alpha': (<alpha> 2.00) ,'beta': (<beta> 0.25) ,'pr': (<pr> 1.00) }{::}) {::}X1 =  (<operator> (<op1> op.op_de)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<de> op.mut_de)) ,  (<cross> (<cross_exp> op.crx_exponential)) ){::}X =  (<output> (<choose_all> X1))) {::} (<step> (<param> op.param = {'w': (<w> 0.50) ,'c1': (<c1> 1.00) ,'c2': (<c2> 0.25) ,'alpha': (<alpha> 0.25) ,'beta': (<beta> 0.25) ,'pr': (<pr> 1.00) }{::}) {::}X1 =  (<operator> (<op2> op.op_pso)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<pso> op.mut_pso)) ,  (<cross> (<cross_blend> op.crx_blend)) ){::}X =  (<output> (<replace_if_random> op.replace_if_random(X, X1))))) {::} (<param> op.param = {'w': (<w> 1.00) ,'c1': (<c1> 0.25) ,'c2': (<c2> 0.50) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.75) ,'pr': (<pr> 0.00) }{::}) (<DropRound> (<DropWorst> X = op.drop_worst(X) {::}))) :}{::}return X:}{::}) {::} (<call> ge(n= (<n> 10) , my_func=tf.ackley_function, bounds=(-5,5), dimension=40, max_nfe=30){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+1

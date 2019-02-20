@@ -1,0 +1,36 @@
+Generation:
+2
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+n=10
+max_nfe = 50
+my_func = tf.ackley_function
+dimension = 40
+bounds = -10, 10
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    op.param = {'w':0.75,'c1':0.75,'c2':0.25,'alpha':0.00,'beta':0.00,'pr':0.75}
+    X1 = op.op_pso(X, op.select_random, op.mut_de, op.crx_exponential)
+    X = X1
+    op.param = {'w':0.00,'c1':0.50,'c2':0.25,'alpha':0.00,'beta':0.75,'pr':0.00}
+    X = op.drop_probability(X)
+  return X
+ge(n, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[15, 88, 79, 56, 19, 3, 62, 80, 4, 95, 10, 41, 28, 79, 60, 43, 90, 9, 75, 33, 75, 27, 66, 72, 60, 86, 91, 68, 12, 48, 18, 79, 69, 54, 38, 77, 15, 16, 23, 64, 11, 10, 29, 75, 85, 75, 9, 44, 16, 59, 49]
+Tree:
+(<S> (<init> import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::} (<params> n= (<n> 10) {::}max_nfe = 50{::}my_func = tf.ackley_function{::}dimension = 40{::}bounds = -10, 10{::}) {::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{: (<main> (<ModificationRound> (<step> (<param> op.param = {'w': (<w> 0.75) ,'c1': (<c1> 0.75) ,'c2': (<c2> 0.25) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.00) ,'pr': (<pr> 0.75) }{::}) {::}X1 =  (<operator> (<op2> op.op_pso)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<de> op.mut_de)) ,  (<cross> (<cross_exp> op.crx_exponential)) ){::}X =  (<output> (<choose_all> X1)))) {::} (<param> op.param = {'w': (<w> 0.00) ,'c1': (<c1> 0.50) ,'c2': (<c2> 0.25) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.75) ,'pr': (<pr> 0.00) }{::}) (<DropRound> (<DropRandom> X = op.drop_probability(X){::}))) :}{::}return X:}) {::} (<call> ge(n, my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+1

@@ -1,0 +1,19 @@
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    op.param = {'w':0.75,'c1':0.50,'c2':0.25,'alpha':0.50,'beta':0.50,'pr':2.00}
+    X1 = op.op_pso(X, op.select_random, op.mut_de, op.crx_exponential)
+    X = op.replace_if_best(X, X1)
+    op.param = {'w':2.00,'c1':1.00,'c2':0.25,'alpha':0.50,'beta':0.25,'pr':1.00}
+    X = op.drop_worst(X) 
+  return X
+ge(n=10, my_func=tf.ackley_function, bounds=(-5,5), dimension=40, max_nfe=30)
+XXX_output_XXX = Solution.best.getFitness()
