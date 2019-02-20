@@ -1,0 +1,30 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    [Xi.getFitness() for Xi in X]
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    X1 = op.op_de(X, op.select_random, op.mut_pso, op.crx_blend)
+    X = op.replace_if_random(X, X1)
+  return X
+ge(n=10, my_func=tf.ackley_function, bounds=(-5, 5), dimension=20, max_nfe=100)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[6085, 52, 6940, 9574, 5870, 8984, 3227, 7779, 3257, 2219, 7577, 436, 3677, 9729, 8953, 3902, 3899, 4953, 6360, 214, 1992, 7140, 5107, 3341, 1649, 1550, 6540, 711, 7433, 2811, 2924, 1472, 5364, 2910, 8615, 7960]
+Tree:
+(<S> (<init> import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}[Xi.getFitness() for Xi in X]{::} (<main> (<ModificationRound> (<step> (<param> op.param = {'w': (<w> 0.00) ,'c1': (<c1> 0.00) ,'c2': (<c2> 0.00) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.00) ,'pr': (<pr> 0.00) }{::}) {::}X1 =  (<operator> (<op1> op.op_de)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<pso> op.mut_pso)) ,  (<cross> (<cross_blend> op.crx_blend)) ){::}X =  (<output> (<replace_if_random> op.replace_if_random(X, X1)))))) :}{::}return X:}{::}) {::} (<call> ge(n= (<n> 10) , my_func=tf.ackley_function, bounds=(-5, 5), dimension=20, max_nfe=100){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+-11.40660268967101

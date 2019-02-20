@@ -2,7 +2,7 @@
 AGENT_SIZE:              100
 BOUNDS:                  (-5, 5)
 CACHE:                   True
-CODON_SIZE:              100
+CODON_SIZE:              10000
 CORES:                   4
 CROSSOVER:               variable_onepoint
 CROSSOVER_PROBABILITY:   0.75
@@ -10,8 +10,9 @@ DEBUG:                   False
 DIMENSION:               10
 ELITE_SIZE:              1
 ERROR_METRIC:            None
+EVALUATIONS:             1000
 EXPERIMENT_NAME:         params
-FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/src/../results/params/Annas-MBP_19_2_20_150722_663185_19578_663185
+FILE_PATH:               /Users/annabogdanova/Documents/Codes/SwarmGE/GECCO19/src/../results/params/Annas-MBP_19_2_20_164808_859039_20823_859039
 FITNESS_FUNCTION:        fitness
 FUNCTION:                tf.ackley_function
 GENERATIONS:             30
@@ -22,7 +23,6 @@ INITIALISATION:          PI_grow
 INIT_GENOME_LENGTH:      200
 INTERACTION_PROBABILITY: 0.5
 INVALID_SELECTION:       False
-ITERATIONS:              30
 LOAD_STATE:              None
 LOOKUP_BAD_FITNESS:      False
 LOOKUP_FITNESS:          False
@@ -44,9 +44,8 @@ NO_MUTATION_INVALIDS:    False
 OPTIMIZE_CONSTANTS:      False
 PARAMETERS:              ge.txt
 PERMUTATION_RAMPS:       5
-POPULATION:              30
 POPULATION_SIZE:         30
-RANDOM_SEED:             663185
+RANDOM_SEED:             859039
 REPLACEMENT:             generational
 REVERSE_MAPPING_TARGET:  None
 RUNS:                    1
@@ -63,7 +62,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              Annas-MBP_19_2_20_150722_663185_19578_663185
+TIME_STAMP:              Annas-MBP_19_2_20_164808_859039_20823_859039
 TOURNAMENT_SIZE:         2
 VERBOSE:                 True
 WITHIN_USED:             True

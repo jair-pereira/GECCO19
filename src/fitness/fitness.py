@@ -9,7 +9,7 @@ import testFunctions as tf
 
 class fitness(base_ff):
 
-    maximise = True
+    maximise = False
     
     def __init__(self):
         # Initialise base fitness function class.
@@ -29,7 +29,7 @@ class fitness(base_ff):
         
         # Exec the phenotype.
         try:
-            exec(p, par_dict, d)
+            exec(p, d)
             #print(p,  file=open(str(id(ind)), 'w'))
         except Exception as err:
             print(p)
