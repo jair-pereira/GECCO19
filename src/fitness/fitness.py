@@ -14,12 +14,6 @@ class fitness(base_ff):
     def __init__(self):
         # Initialise base fitness function class.
         super().__init__()
-        self.iterations = params['ITERATIONS']
-        self.dimension = params['DIMENSION']
-        self.my_func = eval(params['FUNCTION'])
-        self.bounds = params['BOUNDS']
-        self.n = params['POPULATION']
-
 
     def evaluate(self, ind, **kwargs):    	
         # ind.phenotype will be a string, including function definitions etc.
@@ -30,46 +24,16 @@ class fitness(base_ff):
         
         # Exec the phenotype.
         try:
-            # exec(p, d)
-            print(p,  file=open(str(id(ind)), 'w'))
+            exec(p, d)
+            #print(p,  file=open(str(id(ind)), 'w'))
         except Exception as err:
             print(p)
             print(err)
             raise err
 
         # Get the output
-        # s = d['XXX_output_XXX']  # this is the program's output: a number.
+        s = d['XXX_output_XXX']  # this is the program's output: a number.
         
-        return 1
+        #return 1
         return s
-
-#################Uncoment for shorter grammar
-
-#         X = np.array([src.solution(self.my_func, self.dimension, self.bounds) for i in range(self.n)])
-        
-#         #initialize solutions 
-        
-#         [Xi.initRandom() for Xi in X]
-
-#         for it in range(self.iterations):
-#             p, d = ind.phenotype, {}
-            
-#             try:
-#                 exec(p, {'X': X}, d)
-#             except Exception as err:
-#                 print(p)
-#                 print(err)
-#                 raise err
-
-#             X = d['X']
-
-#         return src.solution.best.getFitness()
-
-
-# beta = .5 
-# pr = .7
-# tournamment = 5
-# w = .5 
-# c1 = .5 
-# c2 = 1
 

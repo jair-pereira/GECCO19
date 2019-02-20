@@ -1,0 +1,5 @@
+import src
+X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_pso, src.op.crx_exponential)
+X = src.op.replace_if_random(X, X1)
+X1 = src.op.op_pso(X, src.op.select_random, src.op.mut_cs, src.op.crx_exponential)
+X = X1
