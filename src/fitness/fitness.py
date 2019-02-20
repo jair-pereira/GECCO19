@@ -29,7 +29,7 @@ class fitness(base_ff):
         
         # Exec the phenotype.
         try:
-            exec(p, d)
+            exec(p, par_dict, d)
             #print(p,  file=open(str(id(ind)), 'w'))
         except Exception as err:
             print(p)

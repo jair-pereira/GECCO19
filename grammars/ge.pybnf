@@ -57,4 +57,4 @@
 <c2>  ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
 
 #exec
-<call> ::= ge(n=<n>, my_func=tf.ackley_function, bounds=(-5, 5), dimension=20, max_nfe=100){::}XXX_output_XXX = Solution.best.getFitness()
+<call> ::= ge(<n>, my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()
