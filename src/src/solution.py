@@ -69,6 +69,19 @@ class Solution(object):
     # Bee        
     def increaseAge(self):
         self.age+=1
+
+    def copyStatusPSO(self, X):
+        self.pbest = X.pbest
+        self.velocity = X.velocity
+        
+    @staticmethod
+    def copyStatusPSO(X):
+        U = Solution()
+    
+        U.pbest = X.pbest
+        U.velocity = X.velocity
+        
+        return U
     
     @staticmethod
     def updateBest(x):

@@ -9,7 +9,7 @@ import testFunctions as tf
 
 class fitness(base_ff):
 
-    maximise = True
+    maximise = False
     
     def __init__(self):
         # Initialise base fitness function class.
