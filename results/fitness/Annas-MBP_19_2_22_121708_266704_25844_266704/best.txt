@@ -1,0 +1,32 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    [Xi.getFitness() for Xi in X]
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    X1 = op.op_de(X, op.select_random, op.mut_de, op.crx_exponential)
+    X = X1
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    pass
+  return X
+ge(10, my_func=tf.ackley_function, bounds=(-5, 5), dimension=10, max_nfe=100)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[7563, 822, 6361, 1908, 3020, 4759, 7919, 2301, 428, 2844, 3034, 7559, 9364, 5881, 8051, 2796, 7944, 548, 5176, 489, 9390, 6829, 9390, 6829, 6259, 1798, 8959, 4849, 6001, 9797, 8071, 3539, 4795, 9797, 2129, 3539, 2981, 6653, 1234, 5660, 2790, 5179]
+Tree:
+None
+
+Fitness:
+-13.223752846430411
