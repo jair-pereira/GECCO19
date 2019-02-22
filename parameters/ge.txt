@@ -24,3 +24,5 @@ EVALUATIONS:			1000
 DIMENSION:				10
 BOUNDS:					-5, 5
 FUNCTION:				tf.ackley_function
+RUNS:					10
+SUMMARY:				median
