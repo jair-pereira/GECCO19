@@ -7,7 +7,7 @@ import testFunctions as tf
 
 
 
-class fitness(base_ff):
+class fitness_sum(base_ff):
 
     maximise = False
     
@@ -20,25 +20,26 @@ class fitness(base_ff):
         self.bounds = params['BOUNDS']
         self.runs = params['RUNS']
 
-    def evaluate(self, ind, **kwargs):    	
+    def evaluate(self, ind, **kwargs):      
         # ind.phenotype will be a string, including function definitions etc.
         # When we exec it, it will create a value XXX_output_XXX, but we exec
         # inside an empty dict for safety.
         functions = [x.strip() for x in self.my_func.split(',')]
         
         # Exec the phenotype.
-        try:
-            results = np.zeros((len(functions, self.runs)))
-            for f in functions:
-                par_dict = {"max_nfe": self.max_nfe, "dimension": self.dimension, "my_func": eval(functions[f]), "bounds": self.bounds}
-                for i in range(self.runs):
-                    p, d = ind.phenotype, {}
-                    exec(p, par_dict, d)
-                    results[f, i] = d['XXX_output_XXX']
-        except Exception as err:
-            print(p)
-            print(err)
-            raise err
+        results = np.zeros((len(functions), self.runs))
+        for i, f in enumerate(functions):
+            d = {"n":30, "max_nfe": self.max_nfe, "dimension": self.dimension, "my_func": eval(f), "bounds": self.bounds}
+            for j in range(self.runs):
+                try:
+                    p = ind.phenotype
+                    exec(p, d)
+                    results[i, j] = d['XXX_output_XXX']
+                except Exception as err:
+                    print(p)
+                    print(err)
+                    raise err
+        
 
         # Get the output
         if params['SUMMARY'] == "median":
