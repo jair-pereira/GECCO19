@@ -31,32 +31,7 @@ def select_current(X):
     s = [[Xi] for Xi in X]
     return np.array(s)
 
-### OPERATORS ###
-## FUTURE
-def operator_2_2(S, method, **kwargs):
-    U = Solution.initialize(2*len(S))
-    u = np.array([method(X1.x, X2.x) for X1, X2 in S])
-    
-    for i, Ui in enumerate(U[0::2]):
-        Ui.setX(u[i,0])
-        Ui.copyStatusPSO(S[i,0])
-        
-    for i, Ui in enumerate(U[0::2]):
-        U[i].setX(u[i,1])
-        U[i].copyStatusPSO(S[i,1])
-    
-    return np.array(U)
-    
-def operator_3_1(S, method, **kwargs):
-    U = Solution.initialize(len(S))
-    u = np.array([mutation(X1.x, X2.x, X3.x) for X1, X2, X3 in S])
-    
-    for i in range(len(U)):
-        U[i].setX(u[i])
-        U[i].copyStatusPSO(S[i,0])
-    
-    return np.array(U)
-    
+### OPERATORS ###  
 ## CROSSOVER BLEND
 # wrapper
 def w_crx_blend(S1, S2, alpha):
@@ -65,11 +40,15 @@ def w_crx_blend(S1, S2, alpha):
     
     for i, Ui in enumerate(U[0::2]):
         Ui.setX(u[i,0])
-        Ui.copyStatusPSO(S1[i,0])
+        # Ui.copyStatusPSO(S1[i,0])
+        Ui.setVelocity(S1[i,0].velocity)
+        Ui.pbest = S1[i,0].pbest
         
-    for i, Ui in enumerate(U[0::2]):
-        U[i].setX(u[i,1])
-        U[i].copyStatusPSO(S2[i,0])
+    for i, Ui in enumerate(U[1::2]):
+        Ui.setX(u[i,1])
+        # Ui.copyStatusPSO(S2[i,0])
+        Ui.setVelocity(S2[i,0].velocity)
+        Ui.pbest = S2[i,0].pbest
     
     return np.array(U)
     
@@ -91,11 +70,15 @@ def w_crx_exp(S1, S2, pr):
     
     for i, Ui in enumerate(U[0::2]):
         Ui.setX(u[i,0])
-        Ui.copyStatusPSO(S1[i,0])
+        # Ui.copyStatusPSO(S1[i,0])
+        Ui.setVelocity(S1[i,0].velocity)
+        Ui.pbest = S1[i,0].pbest
         
-    for i, Ui in enumerate(U[0::2]):
-        U[i].setX(u[i,1])
-        U[i].copyStatusPSO(S2[i,0])
+    for i, Ui in enumerate(U[1::2]):
+        Ui.setX(u[i,1])
+        # Ui.copyStatusPSO(S2[i,0])
+        Ui.setVelocity(S2[i,0].velocity)
+        Ui.pbest = S2[i,0].pbest
     
     return np.array(U)
 
@@ -131,7 +114,9 @@ def w_mut_de(S1, S2, S3, beta):
     
     for i in range(len(U)):
         U[i].setX(u[i])
-        U[i].copyStatusPSO(S1[i,0])
+        # U[i].copyStatusPSO(S1[i,0])
+        U[i].setVelocity(S1[i,0].velocity)
+        U[i].pbest = S1[i,0].pbest
     
     return np.array(U)
 
@@ -148,7 +133,9 @@ def w_mut_uni(S, pr):
     
     for i in range(len(U)): 
         U[i].setX(u[i])
-        U[i].copyStatusPSO(S[i,0])
+        # U[i].copyStatusPSO(S[i,0])
+        U[i].setVelocity(S[i,0].velocity)
+        U[i].pbest = S[i,0].pbest
     
     return U
 
@@ -218,22 +205,21 @@ def levy_flight(x, pbest):
     
 ### DROPOUT ###
 ## DROPOUT BY PROBABILITY
-def drop_probability(X):
+def drop_probability(X, pr):
     for i in range(len(X)):
-        if np.random.random() < param['pr']:
+        if np.random.random() < pr:
             X[i].setX(init_random(*type(X[i]).bounds, type(X[i]).dimension))
+            
+    return X
 
-def drop_worst(X):
+def drop_worst(X, pr, k):
     u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
     u = sorted(u, key=lambda x:x[0])
-    for i in range(int(len(X)*.25)):
-        if np.random.random() < param['pr']:
+    for i in range(k):
+        if np.random.random() < pr:
             ind = int(u[i][1])
             X[ind].setX(init_random(*type(X[ind]).bounds, type(X[ind]).dimension))
-            
-## DROPOUT OLD
-def drop_old(X):
-    return
+    return X        
            
 ### REPAIR OPERATOR ###
 def repair_truncate(x, lb, ub):

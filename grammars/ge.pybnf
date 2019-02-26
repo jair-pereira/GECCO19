@@ -8,7 +8,7 @@
 # BRANCHING STARTS HERE
 # main
 <main> ::= <ModificationRound>
-			#|<ModificationRound>{::}<param><DropRound>
+			|<ModificationRound>{::}<DropRound>
 			
 <ModificationRound> ::= <step>
 						| <step>{::}<step>
@@ -23,7 +23,7 @@
 <operator2> ::= <op_crx_blend> | <op_crx_exp> #| <op_crx_bin> 
 <operator3> ::= <op_mut_de>
 <output>    ::= <choose_all> | <replace_if_better> | <replace_if_random>
-<DropRound> ::= <DropRandom>|<DropWorst> |<DropOld>
+<DropRound> ::= <DropRandom>|<DropWorst>
 
 #selection
 <select_random>     ::= op.select_random(X, 1)
@@ -50,14 +50,13 @@
 <replace_if_random> ::= op.replace_if_random(X, U)
 
 #drop
-<DropRandom> ::= X = op.drop_probability(X){::} 
-<DropWorst>  ::= X = op.drop_worst(X) {::}
-<DropOld>    ::= pass 
+<DropRandom> ::= X = op.drop_probability(X, pr=<pr>){::} 
+<DropWorst>  ::= X = op.drop_worst(X, pr=<pr>, k=<k>) {::}
 
 #PARAMETERS
 ##population size
 <n>     ::=   50 #| 100  | 200  | 400  | 800  | 1600
-## k: group size for tournament
+## k: group size for tournament and how many solutions can be dropped by drop_worst
 <k> ::=   1 | int(n*0.10) | int(n*0.25) | int(n*0.50) | int(n*0.75) | n
 ## w: inertia parameter for pso
 <w>     ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
