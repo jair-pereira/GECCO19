@@ -29,7 +29,7 @@ class fitness_sum(base_ff):
         # Exec the phenotype.
         results = np.zeros((len(functions), self.runs))
         for i, f in enumerate(functions):
-            d = {"n":30, "max_nfe": self.max_nfe, "dimension": self.dimension, "my_func": eval(f), "bounds": self.bounds}
+            d = {"max_nfe": self.max_nfe, "dimension": self.dimension, "my_func": eval(f), "bounds": self.bounds}
             for j in range(self.runs):
                 try:
                     p = ind.phenotype
