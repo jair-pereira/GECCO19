@@ -41,8 +41,12 @@ class Solution(object):
         
     def setX(self, x):
         # self.x = x
-        self.x = np.clip(x, *self.bounds)
+        # self.x = np.clip(x, *self.bounds)
+        self.x = Solution.repair(x, *Solution.bounds)
         self.clearFitness()
+        
+    def setVelocity(self, v):
+        self.velocity = v
 
     def getFitness(self):
         if self.fitness == None:
@@ -73,7 +77,12 @@ class Solution(object):
     def copyStatusPSO(self, X):
         self.pbest = X.pbest
         self.velocity = X.velocity
-        
+    
+    @staticmethod
+    def repair(x, lb, ub):
+        #this method should be replaced on the fly
+        return x
+    
     @staticmethod
     def copyStatusPSO(X):
         U = Solution()
@@ -84,16 +93,16 @@ class Solution(object):
         return U
     
     @staticmethod
-    def updateBest(x):
-        if(Solution.best == None or x >= Solution.best):
-            Solution.best  = copy.deepcopy(x)
+    def updateBest(Xi):
+        if(Solution.best == None or Xi >= Solution.best):
+            Solution.best  = copy.deepcopy(Xi)
             Solution.gbest = Solution.best
         return
         
     @staticmethod
-    def updateWorst(x):
-        if(Solution.worst == None or x <= Solution.worst):
-            Solution.worst  = copy.deepcopy(x)
+    def updateWorst(Xi):
+        if(Solution.worst == None or Xi <= Solution.worst):
+            Solution.worst  = copy.deepcopy(Xi)
         return
   
     @staticmethod

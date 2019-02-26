@@ -16,6 +16,15 @@ def select_random(X, n):
     :returns: A list of references of the selected candidate solutions. """
     s = [np.random.choice(X, n, replace=False) for _ in range(len(X))]
     return np.array(s)
+    
+def select_tournament(X, n, k): 
+    """ Selects n exclusively candidate solutions from X through tournament of group size k
+    :param X: list of candidate solutions
+    :param n: the number of individuals selected
+    :param k: group size
+    :returns: A list of references of the selected candidate solutions. """
+    s = [np.sort(r)[::-1][:n] for r in select_random(X, k)]
+    return np.array(s)
 
 def select_current(X):
     """ Selects all candidate solutions from X
@@ -141,7 +150,7 @@ def w_mut_de(S):
 
 # main
 def mut_de(x1, x2, x3):
-    u = x1.x + param['beta']*(x2.x-x3.x)
+    u = x1 + param['beta']*(x2 - x3)
     return u
 
 # MUTATION UNIFORM
@@ -187,27 +196,25 @@ def mut_pso(x1, x2, x3):
 def w_pso(S):
     U = Solution.initialize(len(S))
     v = np.array([pso_velocity(Xi.x, Xi.velocity, type(Xi).best.x, Xi.pbest['x']) for Xi in S[:,0]])
-    u = np.array([pso_move(X[i].x, v[i]) for i in range(len(S))])
+    u = np.array([pso_move(S[i,0].x, v[i]) for i in range(len(S))])
     
     for i in range(len(U)): 
         U[i].setX(u[i])
         U[i].setVelocity(v[i])
-        U[i].pbest = S[i].pbest
+        U[i].pbest = S[i,0].pbest
     
-    return np.array(U)
+    return U
 
 #base
 def pso_velocity(x, v, gbest, pbest):
     r1 = np.random.random(len(x))
     r2 = np.random.random(len(x))
     
-    v = param['w']*v + param['c1']*r1*(pbest - x) + param['c2']*r2*(gbest - x)    
-    
+    v = param['w']*v + param['c1']*r1*(pbest - x) + param['c2']*r2*(gbest - x)
     return v
     
 def pso_move(x, v):
     u = x + v
-    
     return u
     
 ## LEVY FLIGHT
@@ -290,17 +297,44 @@ def drop_worst(X):
             
 ## DROPOUT OLD
 def drop_old(X):
-    u = np.array([(X[i].getFitness(), i) for i in range(X.shape[0])])
-    u = sorted(u, key=lambda x:x[0])
-    for i in range(int(len(X)*.25)):
-        if np.random.random() < param['pr']:
-            ind = int(u[i][1])
-            X[ind].setX(init_random(*type(X[ind]).bounds, type(X[ind]).dimension))
+    return
            
 ### REPAIR OPERATOR ###
-#none
-#clip
+def repair_truncate(x, lb, ub):
+    u = np.clip(x, lb, ub)
+    return u
+    
+def repair_random(x, lb, ub):
+    u = np.array([xi for xi in x])
+    
+    mask = (u<lb) + (u>ub)
+    u[mask] = np.random.uniform(lb, ub, len(u[mask]))
+    return u
+    
+def repair_reflect(x, lb, ub):
+    u = np.array([xi for xi in x])
+    
+    mask_lb = u<lb
+    mask_ub = u>ub
+    
+    u[mask_ub] = u[mask_ub]%ub
+    u[mask_lb] = u[mask_lb]%lb
 
+    return u
+
+### KEEP-RULE / UPDATE-RULE ###
+## REPLACE IF IMPROVED
+def replace_if_best(X1, X2):
+    U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
+    return np.array(U)
+
+
+## REPLACE IF BETTER THAN A RANDOM - cuckoo-style update
+def replace_if_random(X1, X2):
+    U = [X2[i] if X2[i].getFitness() > X1[np.random.randint(0, X1.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
+    return np.array(U)
+    
+    
 ### OTHER LEGACY FUNCTIONS ###
 #auxilary function for op_de
 def selection_for_op_de(X, sel):
@@ -335,13 +369,3 @@ def apply_op_de(xi, xr1, xr2, xr3, mut, cross):
     u = mut(xr1, xr2, xr3)
     v, _ = cross(xi.x, u)
     return v
-
-    
-def replace_if_best(X1, X2):
-    U = [X2[i] if X2[i].getFitness() > X1[i].getFitness() else X1[i] for i in range(X1.shape[0])]
-    return np.array(U)
-
-#cuckoo-style update
-def replace_if_random(X1, X2):
-    U = [X2[i] if X2[i].getFitness() > X1[np.random.randint(0, X1.shape[0])].getFitness() else X1[i] for i in range(X1.shape[0])]
-    return np.array(U)

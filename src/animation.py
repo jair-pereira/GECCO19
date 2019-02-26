@@ -8,12 +8,24 @@ import pandas as pd
 
 ###### workaround for high dpi display + windows ###### 190124
 from sys import platform
-if platform == "win32":
-	matplotlib.rcParams['figure.dpi'] = 250  
+# if platform == "win32":
+	# matplotlib.rcParams['figure.dpi'] = 250  
 #######################################################
 
-def animation(agents, function, lb, ub, sr=False):
-
+def animation(agents, function, lb, ub, sr=False, jupyter=False):
+    if jupyter:
+        plt.ioff()
+    elif platform == "win32":
+        matplotlib.rcParams['figure.dpi'] = 250  
+    """
+    Animate the evolution of an EA
+    :param agents:
+    :param function:
+    :param lb:
+    :param ub:
+    :param sr: boolean, save a .mp4
+    :param jupyter: boolean, display the animation on jupyter without changing the backend
+    """
     side = np.linspace(lb, ub, (ub - lb) * 5)
     X, Y = np.meshgrid(side, side)
     Z = np.array([np.array([function([X[i][j], Y[i][j]])
@@ -37,12 +49,14 @@ def animation(agents, function, lb, ub, sr=False):
         sc.set_offsets(list(zip(x, y)))
         plt.title('iteration: {}'.format(i), loc='right')
 
-    ani = matplotlib.animation.FuncAnimation(fig, an, frames=len(agents) - 1)
+    ani = matplotlib.animation.FuncAnimation(fig, an, frames=len(agents))
 
     if sr:
-
         ani.save('result.mp4')
-
+    if jupyter: #190208: display on jupyter
+        from IPython.display import HTML
+        return HTML(ani.to_jshtml())
+    
     plt.show()
 
 
