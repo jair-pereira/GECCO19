@@ -1,0 +1,54 @@
+# parcing syntax: "<__>" - non-terminals, "{::}" - new line, "{:_____:}" - indentation
+
+# Initialization, no branching
+<S> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}
+{::}ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=3000){::}XXX_output_XXX = Solution.best.getFitness(){::}
+
+<main> ::= <round>|<round>{::}X = <drop>{::}
+			
+<round> ::= <last_step>|
+			<step>{::}<last_step>|
+			<step>{::}<step>{::}<last_step>
+
+<last_step> ::= S1 = <select>{::}U = <operator1>{::}X = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output_last>{::}
+			
+<step> ::= 	S1 = <select>{::}U = <operator1>{::}X = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = op.w_mut_de(S1, S2, S3, beta=<beta>){::}X = <output>{::}
+				
+<select>    ::= op.select_random(<X_or_U>, 1)|
+				op.select_tournament(<X_or_U>, n=1, k=<k>)|
+				op.select_current(<X_or_U>)
+				
+<operator1> ::= op.w_mut_uni(S1, pr=<pr>)|
+				op.w_levy_flight(S1)|
+				op.w_pso(S1, w=<w>, c1=<c1>, c2=<c2>)
+				
+<operator2> ::= op.w_crx_exp2(S1, S2, pr=<pr>)|
+				op.w_crx_blend2(S1, S2, alpha=<alpha>)
+				
+<output>    ::= U|
+				op.replace_if_best(X, U)|
+				op.replace_if_random(X, U)|
+				X
+				
+<output_last> ::= U|
+				op.replace_if_best(X, U)|
+				op.replace_if_random(X, U)
+				
+<drop>      ::= op.drop_probability(X, pr=<pr>)|
+				op.drop_worst(X, pr=<pr>, k=<k>)
+
+<X_or_U> ::= X | U
+
+#PARAMETERS
+<n>     ::=   50 | 100  #| 200  | 400  | 800  | 1600 # population size
+<k> 	::=    1 | int(n*0.10) | int(n*0.25) | int(n*0.50) | int(n*0.75) | n # k: group size for tournament or drop_worst
+<w>     ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # w: inertia parameter for pso
+<c1>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: cognitive parameter for pso
+<c2>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: social parameter for pso
+<pr>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 		# pr: probability for mutation and drop outs
+<alpha> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # alpha: parameter for blend crossover
+<beta>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # beta: parameter for de mutation

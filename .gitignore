@@ -15,3 +15,10 @@
 *.pyc
 
 *.pyc
+*.pyc
+*.txt
+*.tsv
+*.txt
+*.pyc
+results/.DS_Store
+*.tsv
