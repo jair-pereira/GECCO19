@@ -3,33 +3,38 @@
 # Initialization, no branching
 <S> ::= <init>{::}<call>
 
-<init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}
+<init> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}
 
 # BRANCHING STARTS HERE
 # main
-<main> ::= <ModificationRound>
-			|<ModificationRound>{::}<DropRound>
+<main> ::= <round>|<round>{::}<drop>
 			
-<ModificationRound> ::= <step>
-						| <step>{::}<step>
-						| <step>{::}<step>{::}<step>
-						
-<step> ::= 	S1 = <select>{::}U = <operator1>{::}X = <output>{::}
-			| S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output>{::}
-			| S1 = <select>{::}S2 = <select>{::}S3 =<select>{::}U = <operator3>{::}X = <output>{::}
+<round> ::= <last_step>|
+			<step>{::}<last_step>|
+			<step>{::}<step>{::}<last_step>
+
+<last_step> ::= S1 = <select>{::}U = <operator1>{::}X = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output_last>{::}
+			
+<step> ::= 	S1 = <select>{::}U = <operator1>{::}X = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output>{::}
 				
-<select>    ::= <select_random> | <select_tournament> | <select_current> #| <select_roullete>
-<operator1> ::= <op_pso> | <op_cs> | <op_mut_uni>
-<operator2> ::= <op_crx_blend> | <op_crx_exp> #| <op_crx_bin> 
+<select>    ::= <select_random>|<select_tournament>|<select_current>#|<select_roulette>
+<operator1> ::= <op_pso>|<op_cs>|<op_mut_uni>
+<operator2> ::= <op_crx_blend>|<op_crx_exp>#|<op_crx_bin>#|<op_crx_uni>
 <operator3> ::= <op_mut_de>
-<output>    ::= <choose_all> | <replace_if_better> | <replace_if_random>
-<DropRound> ::= <DropRandom>|<DropWorst>
+<output>    ::= <update_all>|<update_best>|<update_better_than_random>|<update_later>
+<output_last> ::= <update_all>|<update_best>|<update_better_than_random>
+<drop>      ::= <drop_random>|<drop_worst>
 
 #selection
-<select_random>     ::= op.select_random(X, 1)
-<select_tournament> ::= op.select_tournament(X, n=1, k=<k>)
-<select_current>    ::= op.select_current(X)
-# <select_roullete>   ::= op.select_roullete(X)
+<select_random>     ::= op.select_random(<X_or_U>, 1)
+<select_tournament> ::= op.select_tournament(<X_or_U>, n=1, k=<k>)
+<select_current>    ::= op.select_current(<X_or_U>)
+# <select_roulette>   ::= op.select_roulette(<X_or_U>)
+<X_or_U> ::= X | U
 
 #operators 1-1
 <op_pso>     ::= op.w_pso(S1, w=<w>, c1=<c1>, c2=<c2>)
@@ -37,39 +42,33 @@
 <op_mut_uni> ::= op.w_mut_uni(S1, pr=<pr>)
 
 #operators 2-2
-<op_crx_blend> ::= op.w_crx_blend(S1, S2, alpha=<alpha>)
-<op_crx_exp>   ::= op.w_crx_exp(S1, S2, pr=<pr>)
+<op_crx_blend> ::= op.w_crx_blend2(S1, S2, alpha=<alpha>)
+<op_crx_exp>   ::= op.w_crx_exp2(S1, S2, pr=<pr>)
 # <op_crx_bin>   ::= op.w_crx_bin(S1, S2, pr=<pr>)
+# <op_crx_uni>   ::= op.w_crx_uni(S1, S2, pr=<pr>)
 
 #operators 3-1
 <op_mut_de> ::= op.w_mut_de(S1, S2, S3, beta=<beta>)
 
 #output (update-rule / keep-rule)
-<choose_all> ::= U
-<replace_if_better> ::= op.replace_if_best(X, U) 
-<replace_if_random> ::= op.replace_if_random(X, U)
+<update_later> ::= X #apply more steps before updating
+<update_all> ::= U
+<update_best> ::= op.replace_if_best(X, U) 
+<update_better_than_random> ::= op.replace_if_random(X, U)
 
 #drop
-<DropRandom> ::= X = op.drop_probability(X, pr=<pr>){::} 
-<DropWorst>  ::= X = op.drop_worst(X, pr=<pr>, k=<k>) {::}
+<drop_random> ::= X = op.drop_probability(X, pr=<pr>){::} 
+<drop_worst>  ::= X = op.drop_worst(X, pr=<pr>, k=<k>) {::}
 
 #PARAMETERS
-##population size
-<n>     ::=   50 #| 100  | 200  | 400  | 800  | 1600
-## k: group size for tournament and how many solutions can be dropped by drop_worst
-<k> ::=   1 | int(n*0.10) | int(n*0.25) | int(n*0.50) | int(n*0.75) | n
-## w: inertia parameter for pso
-<w>     ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-## c1: cognitive parameter for pso
-<c1>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-## c1: social parameter for pso
-<c2>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-## pr: probability for mutation and drop outs
-<pr>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00
-## alpha: parameter for blend crossover
-<alpha> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-## beta: parameter for de mutation
-<beta>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00
+<n>     ::=   50 | 100  #| 200  | 400  | 800  | 1600 # population size
+<k> 	::=    1 | int(n*0.10) | int(n*0.25) | int(n*0.50) | int(n*0.75) | n # k: group size for tournament or drop_worst
+<w>     ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # w: inertia parameter for pso
+<c1>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: cognitive parameter for pso
+<c2>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # c1: social parameter for pso
+<pr>    ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 		# pr: probability for mutation and drop outs
+<alpha> ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # alpha: parameter for blend crossover
+<beta>  ::= 0.00 | 0.25 | 0.50 | 0.75 | 1.00 | 2.00 # beta: parameter for de mutation
 
 #exec
-<call> ::= ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=1000){::}XXX_output_XXX = Solution.best.getFitness()
+<call> ::= ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=3000){::}XXX_output_XXX = Solution.best.getFitness()
