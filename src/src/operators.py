@@ -33,7 +33,7 @@ def select_current(X):
 
 ### OPERATORS ###  
 ## CROSSOVER BLEND
-# wrapper
+# wrapper_2children
 def w_crx_blend(S1, S2, alpha):
     U = Solution.initialize(2*len(S1))
     u = np.array([crx_blend(X1.x, X2.x, alpha) for X1, X2 in zip(S1[:,0], S2[:,0])])
@@ -50,7 +50,19 @@ def w_crx_blend(S1, S2, alpha):
         Ui.setVelocity(S2[i,0].velocity)
         Ui.pbest = S2[i,0].pbest
     
-    return np.array(U)
+    return U
+    
+# wrapper_1child
+def w_crx_blend2(S1, S2, alpha):
+    U = Solution.initialize(len(S1))
+    u = np.array([crx_blend(X1.x, X2.x, alpha) for X1, X2 in zip(S1[:,0], S2[:,0])])
+    
+    for i in range(len(U)):
+        U[i].setX(u[i,0])
+        U[i].setVelocity(S1[i,0].velocity)
+        U[i].pbest = S1[i,0].pbest
+    
+    return U
     
 # main
 def crx_blend(x1, x2, alpha):
@@ -62,8 +74,7 @@ def crx_blend(x1, x2, alpha):
     return u, v
     
 ## CROSSOVER EXPONENTIAL
-# wrapper
-# def w_crx_exp(S, pr, inheritance):
+# wrapper 2children
 def w_crx_exp(S1, S2, pr):
     U = Solution.initialize(2*len(S1))
     u = np.array([crx_exponential(X1.x, X2.x, pr, crx_npoint) for X1, X2 in zip(S1[:,0], S2[:,0])])
@@ -80,7 +91,19 @@ def w_crx_exp(S1, S2, pr):
         Ui.setVelocity(S2[i,0].velocity)
         Ui.pbest = S2[i,0].pbest
     
-    return np.array(U)
+    return U
+    
+# wrapper 1child
+def w_crx_exp2(S1, S2, pr):
+    U = Solution.initialize(len(S1))
+    u = np.array([crx_exponential(X1.x, X2.x, pr, crx_npoint) for X1, X2 in zip(S1[:,0], S2[:,0])])
+    
+    for i in range(len(U)):
+        U[i].setX(u[i,0])
+        U[i].setVelocity(S1[i,0].velocity)
+        U[i].pbest = S1[i,0].pbest
+    
+    return U
 
 # exchange points
 def crx_npoint(x1, x2, points):
