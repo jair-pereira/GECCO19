@@ -30,11 +30,11 @@ budget_multiplier = 1000  # increase to 10, 100, ...
 
 # fmin is re-defined to call our solver
 def fmin(fun, lbounds, ubounds, dim, budget):
-    result = solvers.new_franken30(50, fun, lbounds, ubounds, dim, 30)
+    result = solvers.new_franken30(50, fun, lbounds, ubounds, dim, 50)
     return result
 
 ### prepare
-suite = cocoex.Suite(suite_name, "", "function_indices:20,21,22,24 dimensions:2")
+suite = cocoex.Suite(suite_name, "", "function_indices:20 dimensions:10 instance_indices:1")
 observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
 minimal_print = cocoex.utilities.MiniPrint()
 

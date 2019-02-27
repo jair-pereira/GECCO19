@@ -1,3 +1,4 @@
+#### HYPER-HEURISTIC ####
 CACHE:                  True
 CODON_SIZE:             10000
 CROSSOVER:              variable_onepoint
@@ -12,17 +13,20 @@ MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
 MUTATION:               int_flip_per_codon
 POPULATION_SIZE:        30
-FITNESS_FUNCTION:       fitness_sum
+FITNESS_FUNCTION:       bbob_fitness
 REPLACEMENT:            generational
 SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                True
 
-#####
+##### HEURISTIC #####
 
-EVALUATIONS:			100
-DIMENSION:				10
-BOUNDS:					-5, 5
-FUNCTION:				tf.ackley_function
+MAX_NFE:				100
+DIMENSIONS:				2
+FUNCTION:				20
+INSTANCE_INDICES:		1
 RUNS:					10
-SUMMARY:				median
+
+# mean/median/var/success
+
+SUMMARY:				success

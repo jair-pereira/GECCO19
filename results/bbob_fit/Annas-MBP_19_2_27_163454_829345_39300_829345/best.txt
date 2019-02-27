@@ -1,0 +1,30 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    [Xi.getFitness() for Xi in X]
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    X1 = op.op_pso(X, op.select_random, op.mut_de, op.crx_blend)
+    X = X1
+  return X
+ge(10, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[9231, 6471, 6994, 1998, 5997, 2882, 201, 8677, 1539, 8191, 9934, 4987, 5997, 8440, 7985, 3750, 1940, 3840, 4933, 2518, 6003, 7226, 7641, 6788, 8123, 8778, 6942, 3401, 9300, 7955, 3918, 1741, 6421, 5159, 7869, 7140, 1405, 6949, 2781]
+Tree:
+None
+
+Fitness:
+-220670.1773006135
