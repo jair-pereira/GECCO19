@@ -57,24 +57,6 @@
 <update_better_than_random> ::= op.replace_if_random(X, U)
 
 #drop
-<<<<<<< HEAD
-<DropRandom> ::= X = op.drop_probability(X){::} 
-<DropWorst>  ::= X = op.drop_worst(X) {::}
-<DropOld>    ::= pass 
-
-#parameters
-<param> ::= op.param = {"'w'":<w>,"'c1'":<c1>,"'c2'":<c2>,"'alpha'":<alpha>,"'beta'":<beta>,"'pr'":<pr>}{::}
-<n> ::= 10 #| 50 | 100 | 200 | 400 | 800 |1600
-<pr> ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-<alpha> ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-<beta> ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-<w>   ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-<c1>  ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-<c2>  ::= 0.00 #| 0.25 | 0.50 | 0.75 | 1.00 | 2.00
-
-#exec
-<call> ::= ge(<n>, my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()
-=======
 <drop_random> ::= X = op.drop_probability(X, pr=<pr>){::} 
 <drop_worst>  ::= X = op.drop_worst(X, pr=<pr>, k=<k>) {::}
 
@@ -90,4 +72,3 @@
 
 #exec
 <call> ::= ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=3000){::}XXX_output_XXX = Solution.best.getFitness()
->>>>>>> dev_making_op_more_general

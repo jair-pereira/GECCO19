@@ -2,7 +2,7 @@
 
 # Initialization, no branching
 <S> ::= import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}U = X{::}<main>{::}[Xi.getFitness() for Xi in X]:}{::}return X:}{::}
-{::}ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=3000){::}XXX_output_XXX = Solution.best.getFitness(){::}
+{::}ge(n=<n>, my_func=tf.ackley_function, bounds=(-15,15), dimension=40, max_nfe=2000){::}XXX_output_XXX = Solution.best.getFitness(){::}
 
 <main> ::= <round>|<round>{::}X = <drop>{::}
 			
@@ -12,7 +12,7 @@
 
 <last_step> ::= S1 = <select>{::}U = <operator1>{::}X = <output_last>{::}|
 				S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output_last>{::}|
-				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output_last>{::}
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = op.w_mut_de(S1, S2, S3, beta=<beta>){::}X = <output_last>{::}
 			
 <step> ::= 	S1 = <select>{::}U = <operator1>{::}X = <output>{::}|
 			S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output>{::}|
