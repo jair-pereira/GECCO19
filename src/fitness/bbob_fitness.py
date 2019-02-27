@@ -24,15 +24,15 @@ class bbob_fitness(base_ff):
         # inside an empty dict for safety.
         
         success = []
+        fitness = []
         for i, problem in enumerate(self.suite):
             d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds, problem.upper_bounds)}
-            fitness = np.zeros(self.runs)
             for j in range(self.runs):
                 try:
                     # Exec the phenotype.
                     p = ind.phenotype
                     exec(p, d)
-                    fitness[j] = d['XXX_output_XXX']
+                    fitness.append(d['XXX_output_XXX'])
                     success.append(problem.final_target_hit)
                 except Exception as err:
                     print(p)
@@ -42,7 +42,8 @@ class bbob_fitness(base_ff):
         # Get the output
         if params['SUMMARY'] == "median":
             return np.median(fitness)
-        elif params['SUMMARY'] == 'mean'
+        elif params['SUMMARY'] == 'mean':
+            return np.mean(fitness)
         elif params['SUMMARY'] == "var":
             return np.var(fitness)
         elif params['SUMMARY'] == "success":
