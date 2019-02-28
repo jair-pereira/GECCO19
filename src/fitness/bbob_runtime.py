@@ -27,7 +27,7 @@ class bbob_runtime(base_ff):
         for i, problem in enumerate(self.suite):
             d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds, problem.upper_bounds)}
             results = np.zeros(self.runs)
-            while (problem.evaluations < self.max_nfe and not problem.final_target_hit):
+            while (problem.evaluations < self.runs * self.max_nfe and not problem.final_target_hit):
                 try:
                     # Exec the phenotype.
                     p = ind.phenotype
