@@ -1,0 +1,33 @@
+Generation:
+30
+
+Phenotype:
+import numpy as np
+from src import *
+import testFunctions as tf
+from animation import animation
+def ge(n, my_func, bounds, dimension, max_nfe):
+  Solution.setProblem(my_func, bounds, dimension, maximize=False)
+  X = Solution.initialize(n)
+  for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+  [Xi.getFitness() for Xi in X]
+  Solution.updateHistory(X)
+  while Solution.nfe < max_nfe:
+    [Xi.getFitness() for Xi in X]
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    X1 = op.op_de(X, op.select_random, op.mut_pso, op.crx_exponential)
+    X = X1
+    op.param = {'w':0.00,'c1':0.00,'c2':0.00,'alpha':0.00,'beta':0.00,'pr':0.00}
+    X1 = op.op_de(X, op.select_random, op.mut_pso, op.crx_blend)
+    X = op.replace_if_random(X, X1)
+  return X
+ge(10, my_func, bounds, dimension, max_nfe)
+XXX_output_XXX = Solution.best.getFitness()
+
+Genotype:
+[9917, 7654, 3467, 4158, 8444, 5591, 8324, 5192, 6255, 8773, 3058, 1960, 1148, 1732, 9406, 1347, 5647, 2751, 299, 2261, 6456, 9770, 5220, 6628, 7489, 6953, 5067, 4857, 8812, 6013, 6040, 8884, 2608, 1120, 3532, 6951, 5870, 944, 4445, 5621, 5333, 2465, 1067, 8757, 2410, 594, 6897, 9978, 5012, 9732, 2198, 705, 4589, 5746, 4720, 1251, 6994, 117, 1192, 4771, 2229, 6226, 5637]
+Tree:
+(<S> (<init> import numpy as np{::}from src import *{::}import testFunctions as tf{::}from animation import animation{::}def ge(n, my_func, bounds, dimension, max_nfe):{:Solution.setProblem(my_func, bounds, dimension, maximize=False){::}X = Solution.initialize(n){::}for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension)){::}[Xi.getFitness() for Xi in X]{::}Solution.updateHistory(X){::}while Solution.nfe < max_nfe:{:{::}[Xi.getFitness() for Xi in X]{::} (<main> (<ModificationRound> (<step> (<param> op.param = {'w': (<w> 0.00) ,'c1': (<c1> 0.00) ,'c2': (<c2> 0.00) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.00) ,'pr': (<pr> 0.00) }{::}) {::}X1 =  (<operator> (<op1> op.op_de)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<pso> op.mut_pso)) ,  (<cross> (<cross_exp> op.crx_exponential)) ){::}X =  (<output> (<choose_all> X1))) {::} (<step> (<param> op.param = {'w': (<w> 0.00) ,'c1': (<c1> 0.00) ,'c2': (<c2> 0.00) ,'alpha': (<alpha> 0.00) ,'beta': (<beta> 0.00) ,'pr': (<pr> 0.00) }{::}) {::}X1 =  (<operator> (<op1> op.op_de)) (X,  (<sel> (<random> op.select_random)) ,  (<mut> (<pso> op.mut_pso)) ,  (<cross> (<cross_blend> op.crx_blend)) ){::}X =  (<output> (<replace_if_random> op.replace_if_random(X, X1)))))) :}{::}return X:}{::}) {::} (<call> ge( (<n> 10) , my_func, bounds, dimension, max_nfe){::}XXX_output_XXX = Solution.best.getFitness()))
+
+Fitness:
+0
