@@ -7,23 +7,23 @@
 
 # BRANCHING STARTS HERE
 # main
-<main> ::= <round>|<round>{::}<drop>
+<main> ::= <round>|<round>{::}'#Round Drop'{::}<drop>
 			
-<round> ::= <last_step>|
-			<step>{::}<last_step>|
-			<step>{::}<step>{::}<last_step>
+<round> ::= '#Round 1'{::}<last_step>|
+			'#Round 1'{::}<step>{::}'#Round 2'{::}<last_step>|
+			'#Round 1'{::}<step>{::}'#Round 2'{::}<step>{::}'#Round 3'{::}<last_step>
 
-<last_step> ::= S1 = <select>{::}U = <operator1>{::}X = <output_last>{::}|
-				S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output_last>{::}|
-				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output_last>{::}
+<last_step> ::= S1 = <select>{::}U  = <operator1>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output_last>{::}|
+				S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U  = <operator3>{::}X  = <output_last>{::}
 			
-<step> ::= 	S1 = <select>{::}U = <operator1>{::}X = <output>{::}|
-			S1 = <select>{::}S2 = <select>{::}U = <operator2>{::}X = <output>{::}|
-			S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U = <operator3>{::}X = <output>{::}
+<step> ::= 	S1 = <select>{::}U = <operator1>{::}X  = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}U  = <operator2>{::}X  = <output>{::}|
+			S1 = <select>{::}S2 = <select>{::}S3 = <select>{::}U  = <operator3>{::}X  = <output>{::}
 				
-<select>    ::= <select_random>|<select_tournament>|<select_current>#|<select_roulette>
+<select>    ::= <select_random>|<select_tournament>|<select_current>|<select_roulette>
 <operator1> ::= <op_pso>|<op_cs>|<op_mut_uni>
-<operator2> ::= <op_crx_blend>|<op_crx_exp>#|<op_crx_bin>#|<op_crx_uni>
+<operator2> ::= <op_crx_blend>|<op_crx_exp>|<op_crx_uni>
 <operator3> ::= <op_mut_de>
 <output>    ::= <update_all>|<update_best>|<update_better_than_random>|<update_later>
 <output_last> ::= <update_all>|<update_best>|<update_better_than_random>
@@ -33,7 +33,7 @@
 <select_random>     ::= op.select_random(<X_or_U>, 1)
 <select_tournament> ::= op.select_tournament(<X_or_U>, n=1, k=<k>)
 <select_current>    ::= op.select_current(<X_or_U>)
-# <select_roulette>   ::= op.select_roulette(<X_or_U>)
+<select_roulette>   ::= op.select_roulette(<X_or_U>)
 <X_or_U> ::= X | U
 
 #operators 1-1
@@ -44,8 +44,7 @@
 #operators 2-2
 <op_crx_blend> ::= op.w_crx_blend2(S1, S2, alpha=<alpha>)
 <op_crx_exp>   ::= op.w_crx_exp2(S1, S2, pr=<pr>)
-# <op_crx_bin>   ::= op.w_crx_bin(S1, S2, pr=<pr>)
-# <op_crx_uni>   ::= op.w_crx_uni(S1, S2, pr=<pr>)
+<op_crx_uni>   ::= op.w_crx_uni2(S1, S2, pr=<pr>)
 
 #operators 3-1
 <op_mut_de> ::= op.w_mut_de(S1, S2, S3, beta=<beta>)
