@@ -22,3 +22,4 @@
 *.pyc
 results/.DS_Store
 *.tsv
+*.pyc
