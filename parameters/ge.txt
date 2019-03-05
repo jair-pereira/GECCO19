@@ -25,7 +25,8 @@ MAX_NFE:				100
 DIMENSIONS:				2
 FUNCTION:				20
 INSTANCE_INDICES:		1-5
-RUNS:					10
+RUNS:					1
+MULTIPLIER:             1
 
 # min/mean/median/var/success
 
