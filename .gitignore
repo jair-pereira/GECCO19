@@ -24,3 +24,4 @@ results/.DS_Store
 *.tsv
 src/utilities/__pycache__/__init__.cpython-36.pyc
 *.pyc
+*.pyc
