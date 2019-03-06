@@ -13,7 +13,7 @@ MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
 MUTATION:               int_flip_per_codon
 POPULATION_SIZE:        30
-FITNESS_FUNCTION:       bbob_runtime
+FITNESS_FUNCTION:       bbob_relaxed
 REPLACEMENT:            generational
 SELECTION:              tournament
 TOURNAMENT_SIZE:        2
@@ -23,11 +23,11 @@ VERBOSE:                True
 
 MAX_NFE:				100
 DIMENSIONS:				2
-FUNCTION:				20
-INSTANCE_INDICES:		1-5
+FUNCTION:				1
+INSTANCE_INDICES:		1
 RUNS:					1
 MULTIPLIER:             1
 
 # min/mean/median/var/success
 
-SUMMARY:				success
+SUMMARY:				median

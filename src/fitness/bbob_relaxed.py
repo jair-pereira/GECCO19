@@ -6,7 +6,7 @@ import src
 import cocoex, cocopp  # bbob experimentation and post-processing modules
 
 
-class bbob_fitness(base_ff):
+class bbob_relaxed(base_ff):
 
     maximise = False
     
@@ -15,8 +15,8 @@ class bbob_fitness(base_ff):
         super().__init__()
         self.max_nfe = params['MAX_NFE']
         self.runs    = params['RUNS']
-        self.suite   = cocoex.Suite("bbob", "", "function_indices:"+ str(params['FUNCTION'])+ "dimensions:"+ str(params['DIMENSIONS']) + 
-            "instance_indices:" + str(params['INSTANCE_INDICES']))
+        self.suite   = cocoex.Suite("bbob", "", "function_indices:"+ str(params['FUNCTION'])+ " dimensions:"+ str(params['DIMENSIONS']) + 
+            " instance_indices:" + str(params['INSTANCE_INDICES']))
             
         self.multiplier    = params['MULTIPLIER']
 
@@ -27,25 +27,24 @@ class bbob_fitness(base_ff):
         
         success = []
         fitness = []
-        for i, problem in enumerate(self.suite):
-            d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds, problem.upper_bounds)}
-            for j in range(self.runs):
-                try:
-                    # Exec the phenotype.
-                    p = ind.phenotype
-                    exec(p, d)
-                    fitness.append(d['XXX_output_XXX'])
-                    ###
-                    # success.append(problem.final_target_hit)
-                    if d['XXX_output_XXX'] (problem.final_target_fvalue1 * self.multiplier):
-                        
+        for problem in self.suite:
+            d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds[0], problem.upper_bounds[0])}
+            
+            try:
+                # Exec the phenotype.
+                p = ind.phenotype
+                exec(p, d)
+                fitness.append(d['XXX_output_XXX'])
+                ###
+                # success.append(problem.final_target_hit)
+                #if d['XXX_output_XXX'] (problem.final_target_fvalue1 * self.multiplier):
+                                       
                     
-                    
                     ###
-                except Exception as err:
-                    print(p)
-                    print(err)
-                    raise err
+            except Exception as err:
+                print(p)
+                print(err)
+                raise err
 
         # Get the output
         if params['SUMMARY'] == "median":
