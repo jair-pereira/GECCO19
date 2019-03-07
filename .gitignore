@@ -25,3 +25,4 @@ results/.DS_Store
 src/utilities/__pycache__/__init__.cpython-36.pyc
 *.pyc
 *.pyc
+*.pyc
