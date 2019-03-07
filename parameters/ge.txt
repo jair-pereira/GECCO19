@@ -30,4 +30,4 @@ MULTIPLIER:             1
 
 # min/mean/median/var/success
 
-SUMMARY:				median
+SUMMARY:				min

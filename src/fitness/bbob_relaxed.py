@@ -28,7 +28,7 @@ class bbob_relaxed(base_ff):
         success = []
         fitness = []
         for problem in self.suite:
-            d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds[0], problem.upper_bounds[0])}
+            d = {"max_nfe": self.max_nfe, "dimension": problem.dimension, "my_func": problem, "bounds": (problem.lower_bounds, problem.upper_bounds)}
             
             try:
                 # Exec the phenotype.
