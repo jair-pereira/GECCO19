@@ -6,6 +6,51 @@ from utilities.stats import trackers
 from operators.initialisation import initialisation
 from utilities.algorithm.initialise_run import pool_init
 
+def set_M():
+    import numpy as np
+    learning = params['LEARNING_METHOD']
+    gen      = params['GENERATIONS']
+    mult     = params['MULTIPLIER']
+
+    if learning == 'linear':
+        a = np.array([mult[0]/(10**i) for i in range(0, mult[1]+1, 1)])
+        b = np.arange(0, gen, gen/len(a)) + gen/len(a)
+        
+        mult = list(zip(a,b))
+        m = a[0]
+    elif learning == 'adaptative':
+        m = mult
+    elif learning == 'static':
+        m = mult
+    else:
+        m = 1
+            
+    params['MULTIPLIER'] = mult
+    params['M_aux']      = 0
+    params['M']          = m
+    
+    print("SET M: ", m, mult)
+                
+def update_M(gen, individuals):
+    import numpy as np
+    
+    learning = params['LEARNING_METHOD']
+    ind      = params['M_aux']
+    mult     = params['MULTIPLIER']
+    threshold = params['MULT_T']
+
+    if learning == 'linear' and gen >= mult[ind][1]:
+        params['M_aux'] = ind + 1
+        params['M']     = mult[ind][0]
+        
+        print("UPDATE M: ", gen, params['M'])
+        
+    elif learning == 'adaptative' and \
+        np.median([indv.fitness for indv in individuals]) >= threshold:
+        params['M'] /= 10
+        
+        #print("UPDATE M: ", params['M'], [indv.fitness for indv in individuals])
+
 def search_loop():
     """
     This is a standard search process for an evolutionary algorithm. Loop over
@@ -30,9 +75,12 @@ def search_loop():
     get_stats(individuals)
 
     # Traditional GE
+    set_M()# 190307: our mod for learning multiplier
     for generation in range(1, (params['GENERATIONS']+1)):
         stats['gen'] = generation
 
+        update_M(generation, individuals) # 190307: our mod for learning multiplier
+        
         # New generation
         individuals = params['STEP'](individuals)
 

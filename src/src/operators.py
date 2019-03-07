@@ -308,9 +308,9 @@ def mut_uniform(x, lb, ub, pr):
     :param pr: probability
     :returns: np.array of real values
     '''
-    u = [np.random.uniform(lb, ub) if np.random.random() < pr else x[i] for i in range(len(x))]
+    u = [np.random.uniform(lb, ub) if np.random.random() <= pr else xi for xi in x]
     
-    return u
+    return np.array(u)
 
 # PSO OPERATOR
 #wrapper
