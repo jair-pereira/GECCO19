@@ -61,7 +61,9 @@ class Solution(object):
     
     def evaluate(self):
         Solution.nfe += 1
-        return (Solution.sign) * Solution.function(self.x)
+        #print("BBOB eval: ", Solution.function(self.x))
+        #return (Solution.sign) * Solution.function(self.x)
+        return Solution.function(self.x)
         
     # PSO
     def updatePBest(self):
