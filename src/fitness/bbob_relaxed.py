@@ -7,7 +7,7 @@ import cocoex, cocopp  # bbob experimentation and post-processing modules
 import pickle
 
 class bbob_relaxed(base_ff):
-    maximise = False
+    maximise = True
     params['M'] = 1
     
     def __init__(self):

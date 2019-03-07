@@ -4,7 +4,7 @@ CODON_SIZE:             10000
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
-GENERATIONS:            10
+GENERATIONS:            50
 MAX_GENOME_LENGTH:      50
 GRAMMAR_FILE:           ge.pybnf
 INITIALISATION:         PI_grow
@@ -12,7 +12,7 @@ INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
 MUTATION:               int_flip_per_codon
-POPULATION_SIZE:        10
+POPULATION_SIZE:        30
 FITNESS_FUNCTION:       bbob_relaxed
 REPLACEMENT:            generational
 SELECTION:              tournament
@@ -23,7 +23,7 @@ VERBOSE:                True
 
 MAX_NFE:				100
 DIMENSIONS:				10
-FUNCTION:				'1,15'
+FUNCTION:				'1'
 INSTANCE_INDICES:		'1-10'
 RUNS:					1
 
@@ -32,5 +32,5 @@ SUMMARY:				success
 
 # static, linear, adaptative
 LEARNING_METHOD:		static
-MULTIPLIER:             1e+5
+MULTIPLIER:             1
 MULT_T:					0 #threshold for adaptative update
