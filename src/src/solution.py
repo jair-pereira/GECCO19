@@ -2,25 +2,20 @@ import numpy as np
 import copy
     
 class Solution(object):
-    #function related
-    maximize  = None
-    function  = None
-    bounds    = ()
-    dimension = None
-    nfe       = 0
-    #common attributes
-    best      = None
-    worst     = None
-    gbest     = best
-    history   = []
-    
+
     @staticmethod
     def setProblem(function, bounds, dimension, maximize):
+        #function related
         Solution.maximize  = maximize
         Solution.function  = function
         Solution.bounds    = bounds
         Solution.dimension = dimension
         Solution.nfe       = 0
+        #common attributes
+        Solution.best      = None
+        Solution.worst     = None
+        Solution.gbest     = Solution.best
+        Solution.history   = []
         
         Solution.sign = 1 if Solution.maximize else -1
     
@@ -61,8 +56,6 @@ class Solution(object):
     
     def evaluate(self):
         Solution.nfe += 1
-        #print("BBOB eval: ", Solution.function(self.x))
-        #return (Solution.sign) * Solution.function(self.x)
         return Solution.function(self.x)
         
     # PSO
