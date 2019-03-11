@@ -79,7 +79,7 @@ def search_loop():
     for generation in range(1, (params['GENERATIONS']+1)):
         stats['gen'] = generation
 
-        update_M(generation, individuals) # 190307: our mod for learning multiplier
+        #update_M(generation, individuals) # 190307: our mod for learning multiplier
         
         # New generation
         individuals = params['STEP'](individuals)

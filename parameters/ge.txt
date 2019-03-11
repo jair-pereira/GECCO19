@@ -22,7 +22,7 @@ VERBOSE:                True
 ##### HEURISTIC #####
 
 MAX_NFE:				500
-DIMENSIONS:				2
+DIMENSIONS:				5
 FUNCTION:				'1'
 INSTANCE_INDICES:		'1'
 RUNS:					1
