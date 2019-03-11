@@ -22,9 +22,9 @@ VERBOSE:                True
 ##### HEURISTIC #####
 
 MAX_NFE:				500
-DIMENSIONS:				10
+DIMENSIONS:				2
 FUNCTION:				'1'
-INSTANCE_INDICES:		'1-10'
+INSTANCE_INDICES:		'1'
 RUNS:					1
 
 # min/mean/median/var/success
@@ -32,5 +32,5 @@ SUMMARY:				success
 
 # static, linear, adaptative
 LEARNING_METHOD:		static
-MULTIPLIER:             1
+MULTIPLIER:             2
 MULT_T:					0 #threshold for adaptative update

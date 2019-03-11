@@ -70,6 +70,6 @@ class bbob_relaxed(base_ff):
         # np.mean()
         # np.var()
         
-        result = sum(d_target_hit.values()) / len(self.suite)
+        result = sum(d_target_hit.values()) / (len(self.suite)*runs)
         
         return result
