@@ -55,11 +55,9 @@ def search_loop():
     :return: The final population after the evolutionary process has run for
     the specified number of generations.
     """
-    logf = open(params['LOG_NAME'], 'w')
+    logf = open(params['EXPERIMENT_NAME']+"_log.csv", 'w') #190312: log
     
-    set_M()# 190307: our mod for learning multiplier
-    
-    
+    set_M()#190307: our mod for learning multiplier
     
     if params['MULTICORE']:
         # initialize pool once, if mutlicore is enabled
@@ -79,14 +77,15 @@ def search_loop():
     for generation in range(1, (params['GENERATIONS']+1)):
         stats['gen'] = generation
         
+        #190312: log
         output_list = []
         output_list.append(generation)
         output_list.append(params['M'])
         output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
         for indv in individuals:
             output_list.append(indv.fitness)
-        
         logf.write(",".join(map(str,output_list))+"\n")
+        # ##
         
         update_M(generation, individuals) # 190307: our mod for learning multiplier
         

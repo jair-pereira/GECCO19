@@ -5,6 +5,7 @@ from math import *
 import src
 import cocoex, cocopp  # bbob experimentation and post-processing modules
 import pickle
+from stats.stats import stats, get_stats # for our convenience 
 
 class bbob_relaxed(base_ff):
     maximise = True
@@ -26,11 +27,25 @@ class bbob_relaxed(base_ff):
         
         print("Using BBOB suite: ",self.suite)
         
-        #relaxation
+        #learning method
         file = open("bbob_final_target_fvalue1.pkl",'rb')
         self.ftarget_values = pickle.load(file)
         file.close()
         self.multiplier = params['MULTIPLIER']
+        self._ind = -1
+        
+        #log
+        self.logh = open(params['EXPERIMENT_NAME']+"_history.csv", 'w') #190312: log
+        output_list = []
+        output_list.append("gen")
+        output_list.append("indv")
+        output_list.append("hh_fit")
+        for p in self.suite:
+            output_list.append(p.id)
+        self.logh.write(",".join(map(str,output_list))+"\n")
+        
+    # def __del__(self):
+        # self.logh.close()
 
     def evaluate(self, ind, **kwargs):
         d_target_hit = {} #{problem.id, nbr of target hit}
@@ -63,7 +78,18 @@ class bbob_relaxed(base_ff):
                     raise err
                     
             d_fitness[problem.id] = tmp_fitness
-        
+      
         result = sum(d_target_hit.values()) / len(self.suite)
+        
+        ### log ###
+        self._ind = (self._ind+1) % params['POPULATION_SIZE']
+        output_list = []
+        output_list.append(stats['gen'])
+        output_list.append(self._ind)
+        output_list.append(result)
+        for val in d_fitness.values():
+            output_list.append(val[0]) #expecting 1 run
+        self.logh.write(",".join(map(str,output_list))+"\n")
+        ###
         
         return result
