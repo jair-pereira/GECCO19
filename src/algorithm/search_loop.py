@@ -6,8 +6,10 @@ from utilities.stats import trackers
 from operators.initialisation import initialisation
 from utilities.algorithm.initialise_run import pool_init
 
+
+import numpy as np
+
 def set_M():
-    import numpy as np
     learning = params['LEARNING_METHOD']
     gen      = params['GENERATIONS']
     mult     = params['MULTIPLIER']
@@ -28,8 +30,6 @@ def set_M():
     params['MULTIPLIER'] = mult
     params['M_aux']      = 0
     params['M']          = m
-    
-    print("SET M: ", m, mult)
                 
 def update_M(gen, individuals):
     import numpy as np
@@ -43,13 +43,9 @@ def update_M(gen, individuals):
         params['M_aux'] = ind + 1
         params['M']     = mult[ind][0]
         
-        print("UPDATE M: ", gen, params['M'])
-        
     elif learning == 'adaptative' and \
-        np.median([indv.fitness for indv in individuals]) >= threshold:
+        np.nanmedian([indv.fitness for indv in individuals]) >= threshold:
         params['M'] /= 10
-        
-        #print("UPDATE M: ", params['M'], [indv.fitness for indv in individuals])
 
 def search_loop():
     """
@@ -59,7 +55,12 @@ def search_loop():
     :return: The final population after the evolutionary process has run for
     the specified number of generations.
     """
-
+    logf = open(params['LOG_NAME'], 'w')
+    
+    set_M()# 190307: our mod for learning multiplier
+    
+    
+    
     if params['MULTICORE']:
         # initialize pool once, if mutlicore is enabled
         params['POOL'] = Pool(processes=params['CORES'], initializer=pool_init,
@@ -75,10 +76,18 @@ def search_loop():
     get_stats(individuals)
 
     # Traditional GE
-    set_M()# 190307: our mod for learning multiplier
     for generation in range(1, (params['GENERATIONS']+1)):
         stats['gen'] = generation
-
+        
+        output_list = []
+        output_list.append(generation)
+        output_list.append(params['M'])
+        output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
+        for indv in individuals:
+            output_list.append(indv.fitness)
+        
+        logf.write(",".join(map(str,output_list))+"\n")
+        
         update_M(generation, individuals) # 190307: our mod for learning multiplier
         
         # New generation
@@ -88,6 +97,8 @@ def search_loop():
         # Close the workers pool (otherwise they'll live on forever).
         params['POOL'].close()
 
+    logf.close()    
+     
     return individuals
 
 
