@@ -64,6 +64,6 @@ class bbob_relaxed(base_ff):
                     
             d_fitness[problem.id] = tmp_fitness
         
-        result = sum(d_target_hit.values()) / (len(self.suite)*self.runs)
+        result = sum(d_target_hit.values()) / len(self.suite)
         
         return result

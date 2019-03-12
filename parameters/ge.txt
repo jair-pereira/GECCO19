@@ -1,4 +1,5 @@
 #### HYPER-HEURISTIC ####
+EXPERIMENT_NAME:		workshop_test
 CACHE:                  True
 CODON_SIZE:             10000
 CROSSOVER:              variable_onepoint
@@ -18,12 +19,13 @@ REPLACEMENT:            generational
 SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                True
+DEBUG:					True
 
 ##### HEURISTIC #####
 
-MAX_NFE:				500
+MAX_NFE:				200
 DIMENSIONS:				10
-FUNCTION:				'1, 15'
+FUNCTION:				'1,15'
 INSTANCE_INDICES:		'1-10'
 RUNS:					1
 
@@ -31,6 +33,10 @@ RUNS:					1
 SUMMARY:				success
 
 # static, linear, adaptative
-LEARNING_METHOD:		static
-MULTIPLIER:             10
-MULT_T:					0.8 #threshold for adaptative update
+LEARNING_METHOD:		adaptative
+#if linear, 1e+5,6 where the first value is the initial value and the second value is how many times it will be decreased
+MULTIPLIER:             1e+5
+MULT_T:					0.8 #threshold
+
+## LOG FILE
+LOG_NAME:				log.csv
