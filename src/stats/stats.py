@@ -89,9 +89,9 @@ def get_soo_stats(individuals, end):
     # Get best individual.
     best = max(individuals)
 
-    if not trackers.best_ever or best > trackers.best_ever:
-        # Save best individual in trackers.best_ever.
-        trackers.best_ever = best
+    # if not trackers.best_ever or best > trackers.best_ever:
+    #     # Save best individual in trackers.best_ever.
+    trackers.best_ever = best
 
     if end or params['VERBOSE'] or not params['DEBUG']:
         # Update all stats.
