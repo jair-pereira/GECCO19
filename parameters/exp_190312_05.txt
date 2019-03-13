@@ -35,6 +35,3 @@ LEARNING_METHOD:		adaptative
 #if linear, 1e+5,6 where the first value is the initial value and the second value is how many times it will be decreased
 MULTIPLIER:             1
 MULT_T:					0.8 #threshold
-
-#log
-EXPERIMENT_NAME2:		exp_190312_01
