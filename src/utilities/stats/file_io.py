@@ -149,9 +149,6 @@ def generate_folders_and_files():
 
     save_params_to_file()
 
-    print("In file io")
-    print(params['FILE_PATH'])
-
 def save_params_to_file():
     """
     Save evolutionary parameters in a parameters.txt file.
