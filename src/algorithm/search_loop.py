@@ -5,7 +5,7 @@ from stats.stats import stats, get_stats
 from utilities.stats import trackers
 from operators.initialisation import initialisation
 from utilities.algorithm.initialise_run import pool_init
-
+import datetime # 190313 timestamp
 
 import numpy as np
 
@@ -91,6 +91,8 @@ def search_loop():
         
         # New generation
         individuals = params['STEP'](individuals)
+        
+        print("generation ", generation, "/",params['GENERATIONS'], " finished at ",datetime.datetime.now())# 190313: timestamp
 
     if params['MULTICORE']:
         # Close the workers pool (otherwise they'll live on forever).
