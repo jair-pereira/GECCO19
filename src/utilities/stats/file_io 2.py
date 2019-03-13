@@ -17,7 +17,7 @@ def save_stats_to_file(stats, end=False):
     """
 
     if params['VERBOSE']:
-        filename = path.join(params['FILE_PATH'], "stats.tsv")
+        filename = path.join(params['FILE_PATH'], params['EXPERIMENT_NAME'] + ".stats.tsv")
         savefile = open(filename, 'a')
         for stat in sorted(stats.keys()):
             savefile.write(str(stats[stat]) + "\t")
@@ -50,7 +50,7 @@ def save_stats_headers(stats):
     savefile.close()
 
 
-def save_best_ind_to_file(stats, ind, end=False, name="best"):
+def save_best_ind_to_file(stats, ind, end=False, name="ind"):
     """
     Saves the best individual to a file.
 
@@ -62,7 +62,7 @@ def save_best_ind_to_file(stats, ind, end=False, name="best"):
     :return: Nothing.
     """
 
-    filename = path.join(params['FILE_PATH'], (params['EXPERIMENT_NAME']+ "_" + str(name) + ".txt"))
+    filename = path.join(params['FILE_PATH'], (params['EXPERIMENT_NAME']+ "." + str(name) + ".txt"))
     savefile = open(filename, 'w')
     savefile.write("Generation:\n" + str(stats['gen']) + "\n\n")
     savefile.write("Phenotype:\n" + str(ind.phenotype) + "\n\n")
@@ -140,17 +140,15 @@ def generate_folders_and_files():
         makedirs(params['FILE_PATH'])
 
     # if not path.isdir(path.join(params['FILE_PATH'],
-                                # str(params['TIME_STAMP']))):
-        # makedirs(path.join(params['FILE_PATH'],
-                        # str(params['TIME_STAMP'])))
+    #                             str(params['TIME_STAMP']))):
+    #     makedirs(path.join(params['FILE_PATH'],
+    #                     str(params['TIME_STAMP'])))
 
     # params['FILE_PATH'] = path.join(params['FILE_PATH'],
-                                    # str(params['TIME_STAMP']))
+    #                                 str(params['TIME_STAMP']))
 
     save_params_to_file()
 
-    print("In file io")
-    print(params['FILE_PATH'])
 
 def save_params_to_file():
     """
@@ -160,7 +158,7 @@ def save_params_to_file():
     """
 
     # Generate file path and name.
-    filename = path.join(params['FILE_PATH'], params['EXPERIMENT_NAME'] + "_par.txt")
+    filename = path.join(params['FILE_PATH'], params['EXPERIMENT_NAME']+".par.txt")
     savefile = open(filename, 'w')
 
     # Justify whitespaces for pretty printing/saving.
