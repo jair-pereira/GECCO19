@@ -90,6 +90,7 @@ class bbob_relaxed(base_ff):
         for val in d_fitness.values():
             output_list.append(val[0]) #expecting 1 run
         self.logh.write(",".join(map(str,output_list))+"\n")
+        self.logh.flush()
         ###
         
         return result

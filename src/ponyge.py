@@ -19,12 +19,18 @@ import sys
 def mane():
     """ Run program """
 
-    # Run evolution
-    individuals = params['SEARCH_LOOP']()
+    try:
+        # Run evolution
+        individuals = params['SEARCH_LOOP']()
 
-    # Print final review
-    get_stats(individuals, end=True)
+        # Print final review
+        get_stats(individuals, end=True)
 
+    except Exception as err:
+        import datetime
+        print("Error occured at ", datetime.datetime.now(), flush=True)
+        print(err, flush=True)
+        raise err
 
 if __name__ == "__main__":
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself

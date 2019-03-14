@@ -85,6 +85,7 @@ def search_loop():
         for indv in individuals:
             output_list.append(indv.fitness)
         logf.write(",".join(map(str,output_list))+"\n")
+        logf.flush()
         # ##
         
         update_M(generation, individuals) # 190307: our mod for learning multiplier
