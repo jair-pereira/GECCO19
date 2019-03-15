@@ -16,12 +16,13 @@ class Solution(object):
         Solution.worst     = None
         Solution.gbest     = Solution.best
         Solution.history   = []
+        Solution.summary   = []
         
         Solution.sign = 1 if Solution.maximize else -1
     
     @staticmethod
     def initialize(n):
-        return np.array([Solution() for i in range(n)])
+        return np.array([Solution() for i in range(int(n))])
 
     def __init__(self):
         #default attributes
@@ -104,6 +105,13 @@ class Solution(object):
     def updateHistory(X):
         Solution.history = Solution.history + [np.array([Xi.x for Xi in X])]
         return
+        
+    def updateSummary(gen, nfe, X):
+        output = []
+        output.append(gen)
+        output.append(nfe)
+        output.append([Xi.getFitness() for Xi in X])
+        Solution.summary = Solution.summary + [output]    
         
     @staticmethod
     def print(sep="\n"):
