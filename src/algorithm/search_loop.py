@@ -55,7 +55,9 @@ def search_loop():
     :return: The final population after the evolutionary process has run for
     the specified number of generations.
     """
-    logf = open(params['FILE_PATH']+"/"+params['EXPERIMENT_NAME']+"_log.csv", 'w') #190312: log
+    logf = open(params['FILE_PATH']+"/_log.csv", 'w')    
+    if params['EXPERIMENT_NAME'] is not None:
+        logf = open(params['FILE_PATH']+"/"+params['EXPERIMENT_NAME']+"_log.csv", 'w') #190312: log
     
     set_M()#190307: our mod for learning multiplier
     

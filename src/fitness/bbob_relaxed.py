@@ -36,7 +36,9 @@ class bbob_relaxed(base_ff):
         self._gen = 0
         
         #log
-        self.logh = open(params['FILE_PATH']+"/"+params['EXPERIMENT_NAME']+"_history.csv", 'w') #190312: log
+        self.logh = open(params['FILE_PATH']+"/_history.csv", 'w')
+        if params['EXPERIMENT_NAME'] is not None:
+            self.logh = open(params['FILE_PATH']+"/"+params['EXPERIMENT_NAME']+"_history.csv", 'w') #190312: log
         output_list = []
         output_list.append("gen")
         output_list.append("indv")
