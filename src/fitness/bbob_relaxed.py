@@ -33,6 +33,7 @@ class bbob_relaxed(base_ff):
         file.close()
         self.multiplier = params['MULTIPLIER']
         self._ind = -1
+        self._gen = 0
         
         #log
         self.logh = open(params['FILE_PATH']+"/"+params['EXPERIMENT_NAME']+"_history.csv", 'w') #190312: log
@@ -82,7 +83,10 @@ class bbob_relaxed(base_ff):
         result = sum(d_target_hit.values()) / len(self.suite)
         
         ### log ###
-        self._ind = (self._ind+1) % params['POPULATION_SIZE']
+        self._ind += 1
+        if stats['gen'] > self._gen:
+            self._gen = stats['gen']
+            self._ind = 0
         output_list = []
         output_list.append(stats['gen'])
         output_list.append(self._ind)
