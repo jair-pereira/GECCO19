@@ -1,0 +1,43 @@
+#### HYPER-HEURISTIC ####
+CACHE:                  True
+DEBUG:                  False
+VERBOSE:                False
+SILENT:                 True
+SAVE_PLOTS:             False
+SAVE_ALL:               True
+
+CODON_SIZE:             1000
+MAX_GENOME_LENGTH:      50
+MAX_INIT_TREE_DEPTH:    10
+MAX_TREE_DEPTH:         17
+
+GRAMMAR_FILE:           ge.pybnf
+FITNESS_FUNCTION:       bbob_relaxed
+
+INITIALISATION:         PI_grow
+SELECTION:              tournament
+INVALID_SELECTION:      False
+REPLACEMENT:            generational
+CROSSOVER:              variable_onepoint
+CROSSOVER_PROBABILITY:  0.75
+MUTATION:               int_flip_per_codon
+
+GENERATIONS:            100
+POPULATION_SIZE:        20
+TOURNAMENT_SIZE:        4
+
+##### HEURISTIC #####
+
+MAX_NFE:				4000
+DIMENSIONS:				10
+FUNCTION:				'1,15'
+INSTANCE_INDICES:		'1-10'
+RUNS:					1
+
+# min/mean/median/var/success
+SUMMARY:				success
+
+# static, linear, adaptative
+LEARNING_METHOD:		adaptative
+MULTIPLIER:             1e+2
+MULT_T:					0.8
