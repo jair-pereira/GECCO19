@@ -45,7 +45,7 @@ def update_M(gen, individuals):
         
     elif learning == 'adaptative' and \
         np.nanmedian([indv.fitness for indv in individuals]) >= threshold:
-        params['M'] /= 10
+        params['M'] /= 2
 
 def search_loop():
     """
