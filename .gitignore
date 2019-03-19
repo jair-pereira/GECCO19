@@ -8,6 +8,8 @@
 *.tex
 *.js
 *.pyc
+*.
 results/
 params_old/
+src/jupyter/
 .DS_Store
