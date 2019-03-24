@@ -70,7 +70,7 @@ class bbob_relaxed(base_ff):
                     exec(p, d)
                     
                     tmp_fitness.append(d['XXX_output_XXX'])
-                    if np.abs(d['XXX_output_XXX'] - self.ftarget_values[problem.id]) < params['M']:
+                    if np.abs(d['XXX_output_XXX'] - self.ftarget_values[problem.id]) <= params['M']:
                         d_target_hit[problem.id] += 1
                         
                 except Exception as err:
