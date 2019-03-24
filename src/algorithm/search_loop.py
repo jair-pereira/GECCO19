@@ -46,6 +46,32 @@ def update_M(gen, individuals):
     elif learning == 'adaptative' and \
         np.nanmedian([indv.fitness for indv in individuals]) >= threshold:
         params['M'] /= 2
+        
+def write_log(file, generation, m, individuals):
+    output_list = []
+    output_list.append(generation)
+    output_list.append(m)
+    output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
+    for indv in individuals:
+        output_list.append(indv.fitness)
+    file.write(",".join(map(str,output_list))+"\n")
+    file.flush()
+    
+    return
+    
+def write_best(generation, m, individuals):
+    file = open(params['FILE_PATH']+"/"+str(generation)+".txt", 'w')
+    output_list = []
+    output_list.append(generation)
+    output_list.append(m)
+    
+    best = max(individuals[1:])
+    output_list.append(best.fitness)
+    output_list.append(best.phenotype)    
+    
+    file.write(",".join(map(str,output_list))+"\n")
+    file.flush()
+    file.close()
 
 def search_loop():
     """
@@ -71,27 +97,20 @@ def search_loop():
 
     # Generate statistics for run so far
     get_stats(individuals)
-
+    write_log(logf, 0, params['M'], individuals )#190312: log
+    #write_best(0, params['M'], individuals)
+    
     # Traditional GE
     for generation in range(1, (params['GENERATIONS']+1)):
         stats['gen'] = generation
-        
-        #190312: log
-        output_list = []
-        output_list.append(generation)
-        output_list.append(params['M'])
-        output_list.append(np.nanmedian([indv.fitness for indv in individuals]))
-        for indv in individuals:
-            output_list.append(indv.fitness)
-        logf.write(",".join(map(str,output_list))+"\n")
-        logf.flush()
-        # ##
-        
+
         update_M(generation, individuals) # 190307: our mod for learning multiplier
         
         # New generation
         individuals = params['STEP'](individuals)
         
+        write_log(logf, generation, params['M'], individuals)#190312: log
+        #write_best(generation, params['M'], individuals)
         print("generation ", generation, "/",params['GENERATIONS'], " finished at ",datetime.datetime.now())# 190313: timestamp
 
     if params['MULTICORE']:

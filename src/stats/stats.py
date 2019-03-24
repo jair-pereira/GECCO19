@@ -87,7 +87,8 @@ def get_soo_stats(individuals, end):
     """
 
     # Get best individual.
-    best = max(individuals)
+    # best = max(individuals)
+    best = max(individuals[1:]) # indv[0] is hall of fame
 
     # if not trackers.best_ever or best > trackers.best_ever:
     #     # Save best individual in trackers.best_ever.
