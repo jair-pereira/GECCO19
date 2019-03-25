@@ -38,6 +38,6 @@ RUNS:					1
 SUMMARY:				success
 
 # static, linear, adaptative
-LEARNING_METHOD:		static
-MULTIPLIER:             1e+2
+LEARNING_METHOD:		adaptative
+MULTIPLIER:             1e+1
 MULT_T:					0.8
