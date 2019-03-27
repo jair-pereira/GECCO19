@@ -77,7 +77,7 @@ def cs(n, my_func, bounds, dimension, max_nfe, pr, k):
         [Xi.getFitness() for Xi in X]
     return Solution
     
-def ge_190320_01(n, my_func, bounds, dimension, max_nfe):#n=100
+def f201(n, my_func, bounds, dimension, max_nfe):#n=100
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_random
     X = Solution.initialize(n)
@@ -103,7 +103,7 @@ def ge_190320_01(n, my_func, bounds, dimension, max_nfe):#n=100
         [Xi.getFitness() for Xi in X]
     return X
     
-def ge_190320_02(n, my_func, bounds, dimension, max_nfe):#n=50
+def f202(n, my_func, bounds, dimension, max_nfe):#n=50
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_random
     X = Solution.initialize(n)
@@ -121,7 +121,7 @@ def ge_190320_02(n, my_func, bounds, dimension, max_nfe):#n=50
         [Xi.getFitness() for Xi in X]
     return X
     
-def ge_190320_03(n, my_func, bounds, dimension, max_nfe):#n=100
+def f203(n, my_func, bounds, dimension, max_nfe):#n=100
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_truncate
     X = Solution.initialize(n)
@@ -144,7 +144,7 @@ def ge_190320_03(n, my_func, bounds, dimension, max_nfe):#n=100
         [Xi.getFitness() for Xi in X]
     return X
     
-def ge_190325_01(n, my_func, bounds, dimension, max_nfe):#n=50
+def f251(n, my_func, bounds, dimension, max_nfe):#n=50
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_random
     X = Solution.initialize(n)
@@ -162,7 +162,7 @@ def ge_190325_01(n, my_func, bounds, dimension, max_nfe):#n=50
         [Xi.getFitness() for Xi in X]
     return X
     
-def ge_190325_03(n, my_func, bounds, dimension, max_nfe):#n=200
+def f253(n, my_func, bounds, dimension, max_nfe):#n=200
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_random
     X = Solution.initialize(n)
