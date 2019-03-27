@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import sys, pickle, datetime
 import cocoex, cocopp
-from solvers import pso, de, cs, ga
+from solvers import f201, f203, f251, f253
 
 output_folder = "F201_VAL1_190327" #CHANGE HERE!
 nfe_base = 1e+5
