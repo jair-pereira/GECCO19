@@ -103,24 +103,6 @@ def f201(n, my_func, bounds, dimension, max_nfe):#n=100
         [Xi.getFitness() for Xi in X]
     return X
     
-def f202(n, my_func, bounds, dimension, max_nfe):#n=50
-    Solution.setProblem(my_func, bounds, dimension, maximize=False)
-    Solution.repair = op.repair_random
-    X = Solution.initialize(n)
-    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
-    [Xi.getFitness() for Xi in X]
-    Solution.updateHistory(X)
-    while Solution.nfe < max_nfe:
-        U = X
-        #Round 1
-        S1 = op.select_tournament(U, n=1, k=1)
-        U  = op.w_pso(S1, w=0.25, c1=0.00, c2=0.75)
-        X  = U
-        #Round Drop
-        X = op.drop_worst(X, pr=0.10, k=int(n*0.25)) 
-        [Xi.getFitness() for Xi in X]
-    return X
-    
 def f203(n, my_func, bounds, dimension, max_nfe):#n=100
     Solution.setProblem(my_func, bounds, dimension, maximize=False)
     Solution.repair = op.repair_truncate
