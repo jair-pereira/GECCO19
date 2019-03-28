@@ -198,3 +198,125 @@ def f282(n, my_func, bounds, dimension, max_nfe):#50
         X  = U
         [Xi.getFitness() for Xi in X]
     return Solution
+    
+def f201p(n, my_func, bounds, dimension, max_nfe, w_1, c1_1, c2_1, k, beta, w_2, c1_2, c2_2):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_current(U)
+        U = op.w_pso(S1, w_1, c1_1, c2_1)
+        X  = op.replace_if_random(X, U)
+        #Round 2
+        S1 = op.select_tournament(U, n=1, k=k)
+        S2 = op.select_random(X, 1)
+        S3 = op.select_current(X)
+        U  = op.w_mut_de(S1, S2, S3, beta)
+        X  = op.replace_if_best(X, U)
+        #Round 3
+        S1 = op.select_current(U)
+        U  = op.w_pso(S1, w_2, c1_2, c2_2)
+        X  = op.replace_if_random(X, U)
+        [Xi.getFitness() for Xi in X]
+    return Solution
+    
+def f203p(n, my_func, bounds, dimension, max_nfe, k, pr, beta):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_truncate
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_tournament(U, n=1, k=k)
+        S2 = op.select_random(X, 1)
+        U  = op.w_crx_exp2(S1, S2, pr)
+        X  = op.replace_if_random(X, U)
+        #Round 2
+        S1 = op.select_random(U, 1)
+        S2 = op.select_random(X, 1)
+        S3 = op.select_current(U)
+        U  = op.w_mut_de(S1, S2, S3, beta)
+        X  = U
+        [Xi.getFitness() for Xi in X]
+    return Solution
+    
+def f251p(n, my_func, bounds, dimension, max_nfe, w, c1, c2, pr):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_current(X)
+        U  = op.w_pso(S1, w, c1, c2)
+        X  = op.replace_if_random(X, U)
+        #Round Drop
+        X = op.drop_probability(X, pr)
+        [Xi.getFitness() for Xi in X]
+    return Solution
+    
+def f253p(n, my_func, bounds, dimension, max_nfe, w, c1, c2):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_random(U, 1)
+        U  = op.w_pso(S1, w, c1, c2)
+        X  = U
+        [Xi.getFitness() for Xi in X]
+    return Solution
+    
+def f281p(n, my_func, bounds, dimension, max_nfe, k_1, k_2, beta):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_tournament(U, n=1, k=int(k_1))
+        S2 = op.select_tournament(U, n=1, k=int(k_2))
+        S3 = op.select_random(U, 1)
+        U  = op.w_mut_de(S1, S2, S3, beta)
+        X  = U
+        [Xi.getFitness() for Xi in X]
+    return Solution
+    
+def f282p(n, my_func, bounds, dimension, max_nfe, k, pr, alpha):
+    Solution.setProblem(my_func, bounds, dimension, maximize=False)
+    Solution.repair = op.repair_random
+    X = Solution.initialize(n)
+    for Xi in X:    Xi.setX(op.init_random(*Solution.bounds, Solution.dimension))
+    [Xi.getFitness() for Xi in X]
+    Solution.updateHistory(X)
+    while Solution.nfe < max_nfe:
+        U = X
+        #Round 1
+        S1 = op.select_tournament(X, n=1, k=int(k))
+        U = op.w_mut_uni(S1, pr)
+        X  = U
+        #Round 2
+        S1 = op.select_random(U, 1)
+        S2 = op.select_current(X)
+        U  = op.w_crx_blend2(S1, S2, alpha)
+        X  = U
+        [Xi.getFitness() for Xi in X]
+    return Solution
