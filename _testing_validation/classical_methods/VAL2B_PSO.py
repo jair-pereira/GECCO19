@@ -9,7 +9,7 @@ nfe_base = 1e+5
 
 observer = cocoex.Observer("bbob", "result_folder: " + output_folder)
 
-suite = cocoex.Suite("bbob", "", "function_indices:16-29 dimensions:20 instance_indices:1-5")
+suite = cocoex.Suite("bbob", "", "function_indices:16-19 dimensions:20 instance_indices:1-5")
 print("Experiment ", output_folder,  " started at ",datetime.datetime.now(), "\n on suite", suite)
 for problem in suite:
     problem.observe_with(observer)
