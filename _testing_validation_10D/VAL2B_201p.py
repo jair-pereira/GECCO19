@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import sys, pickle, datetime
 import cocoex, cocopp
-from solvers import f281
+from solvers import f201p
 
-output_folder = "F281_VAL2B" #CHANGE HERE!
+output_folder = "F201p_VAL2B" #CHANGE HERE!
 nfe_base = 1e+5
 
 observer = cocoex.Observer("bbob", "result_folder: " + output_folder)
@@ -15,7 +15,7 @@ for problem in suite:
     problem.observe_with(observer)
     max_nfe = nfe_base*problem.dimension
     
-    f281(100, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, max_nfe)
+    f201p(400, problem, (problem.lower_bounds[0], problem.upper_bounds[0]), problem.dimension, max_nfe, w_1=1.29, c1_1=0.10, c2_1=0.60, k=25, beta=0.05, w_2=0.03, c1_2=0.03, c2_2=0.52)
     
     print(problem.id, " finished at ",datetime.datetime.now())
     
