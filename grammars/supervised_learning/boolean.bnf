@@ -1,5 +1,0 @@
-<e>  ::=  (<e> & <e>) |
-	 	  (<e> "|" <e>) |
-		  ~<e> |
-		  x[<varidx>]
-<varidx> ::= GE_RANGE:dataset_n_vars

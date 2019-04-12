@@ -1,5 +1,3 @@
-
-*.pyc
 *.info
 *.rdat
 *.tdat
@@ -9,3 +7,6 @@
 *.svg
 *.tex
 *.js
+*.pyc
+results/
+.DS_Store
