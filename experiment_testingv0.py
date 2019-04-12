@@ -51,13 +51,15 @@ def write_log(d_fitness, result):
     file.close()
     
     return
-
+                
 def experiment_test(experiment_name, max_nfe, precision, suite):
-    # bbob observer
-    output_folder = experiment_name
-    observer = cocoex.Observer("bbob", "result_folder: " + output_folder)
+    #bbob optimums
+    file = open("src/bbob_final_target_fvalue1.pkl",'rb')
+    ftarget_values = pickle.load(file)
+    file.close()
 
-    #get best code
+    #extract code
+    #ponyge.load_params("./results/"+experiment_name+"/parameters.txt")
     file = open("./results/"+experiment_name+"/"+str(get_best_indv())+".txt", 'r')
     best = file.readlines()
     file.close()
@@ -66,8 +68,9 @@ def experiment_test(experiment_name, max_nfe, precision, suite):
     for line in best[6:-8]:    code += line
                 
     #run code on each problem in suite
+    d_target_hit = {}
+    d_fitness    = {}
     for problem in suite:
-        problem.observe_with(observer)  # generates the data for cocopp post-processing
         d = {
             "max_nfe"  : max_nfe, 
             "dimension": problem.dimension,
@@ -76,8 +79,17 @@ def experiment_test(experiment_name, max_nfe, precision, suite):
             }
 
         exec(code, d)
-        
-    cocopp.main(observer.result_folder)
+
+        d_fitness[problem.id] = d['XXX_output_XXX']
+        d_target_hit[problem.id] = 0
+        if np.abs(d_fitness[problem.id] - ftarget_values[problem.id]) <= precision:
+            d_target_hit[problem.id] = 1
+
+    result = sum(d_target_hit.values()) / len(suite)
+
+    #write results to a file
+    write_log(d_fitness, result)
+    
     
 if __name__ == "__main__":
     precision   = float(sys.argv[1])
